@@ -1,4 +1,11 @@
-import { ChangeDetectionStrategy, Component, Inject, TrackByFunction, ViewEncapsulation } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Inject,
+  Optional,
+  TrackByFunction,
+  ViewEncapsulation,
+} from '@angular/core';
 import { Validation } from '../models';
 
 @Component({
@@ -10,10 +17,15 @@ import { Validation } from '../models';
   encapsulation: ViewEncapsulation.None,
 })
 export class ValidationErrorComponent {
-  trackByFn: TrackByFunction<string> = (_, item) => item;
+  trackByFn: TrackByFunction<Validation.Error> = (_, item) => item.key;
+
+  get errors(): Validation.Error[] {
+    return this.validationErrors || [];
+  }
 
   constructor(
+    @Optional()
     @Inject('VALIDATION_ERRORS')
-    public errors: Validation.Error[],
+    protected readonly validationErrors: Validation.Error[],
   ) {}
 }
