@@ -7,15 +7,17 @@ import { BLUEPRINTS } from './constants/blueprints';
 import { defaultMapErrorsFn } from './utils/mappers';
 import { AbstractValidationDirective } from './abstracts/abstract-validation.directive';
 import { ValidationGroupDirective } from './directives/validation-group.directive';
+import { ValidationStyleDirective } from './directives/validation-style.directive';
 import { ValidationTargetDirective } from './directives/validation-target.directive';
 
 @NgModule({
   imports: [CommonModule, FormsModule, ReactiveFormsModule],
-  exports: [ValidationGroupDirective, ValidationTargetDirective],
+  exports: [ValidationGroupDirective, ValidationStyleDirective, ValidationTargetDirective],
   declarations: [
     ValidationErrorComponent,
     AbstractValidationDirective,
     ValidationGroupDirective,
+    ValidationStyleDirective,
     ValidationTargetDirective,
   ],
   entryComponents: [ValidationErrorComponent],
