@@ -35,10 +35,6 @@ export function validatePassword(
 
     const missing: string[] = shouldContain.filter(key => !regex[key].test(value));
 
-    const invalidPassword = {
-      missing: shouldContain.filter(key => !regex[key].test(value)),
-    };
-
     return missing.length
       ? {
           invalidPassword: {
