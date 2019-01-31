@@ -1,25 +1,23 @@
-# Core
+# NgxValidate Core MOdule
 
-This library was generated with [Angular CLI](https://github.com/angular/angular-cli) version 7.2.0.
+This project is still a work-in-progress and, although it works fine, it should be used with caution.
 
-## Code scaffolding
+## Quickstart
 
-Run `ng generate component component-name --project core` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module --project core`.
+Just add the core package to your project with either `yarn add @ngx-validate/core` or `npm install @ngx-validate/core` and import core module to your main module like this: `NgxValidateCoreModule.forRoot()`
 
-> Note: Don't forget to add `--project core` or else it will be added to the default project in your `angular.json` file.
+Further information will be provided soon.
 
-## Build
+## Features
 
-Run `ng build core` to build the project. The build artifacts will be stored in the `dist/` directory.
+- [x] Dynamic display of validation errors
 
-## Publishing
+- [x] Support for error blueprints with parameters
 
-After building your library with `ng build core`, go to the dist folder `cd dist/core` and run `npm publish`.
+- [x] Separate directives to mark style and render targets in DOM
 
-## Running unit tests
+- [x] Meaningful defaults, instant start
 
-Run `ng test core` to execute the unit tests via [Karma](https://karma-runner.github.io).
+- [x] Flexible configuration on module, form group, and form control level
 
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+- [x] Permissive license (MIT)

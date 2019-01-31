@@ -1,27 +1,33 @@
 # NgxValidate
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 7.3.0.
+This project is still a work-in-progress and, although it works fine, it should be used with caution.
 
-## Development server
+## Quickstart
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+Just add the core package to your project with either `yarn add @ngx-validate/core` or `npm install @ngx-validate/core` and import core module to your main module like this: `NgxValidateCoreModule.forRoot()`
 
-## Code scaffolding
+Further information will be provided soon.
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+## Roadmap
 
-## Build
+- [x] Dynamic display of validation errors
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+- [x] Support for error blueprints with parameters
 
-## Running unit tests
+- [x] Separate directives to mark style and render targets in DOM
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+- [x] Meaningful defaults, instant start
 
-## Running end-to-end tests
+- [x] Flexible configuration on module, form group, and form control level
 
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
+- [x] Permissive license (MIT)
 
-## Further help
+- [ ] Usage documentation
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+- [ ] GitHub Pages implementation
+
+- [ ] Issue submission template
+
+- [ ] Contribution documentation
+
+- [ ] Tests
