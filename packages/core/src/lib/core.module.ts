@@ -6,11 +6,12 @@ import { ValidationErrorComponent } from './components/validation-error.componen
 import { BLUEPRINTS } from './constants/blueprints';
 import { defaultMapErrorsFn } from './utils/mappers';
 import { AbstractValidationDirective } from './abstracts/abstract-validation.directive';
+import { ValidationGroupDirective } from './directives/validation-group.directive';
 
 @NgModule({
   imports: [CommonModule, FormsModule, ReactiveFormsModule],
-  exports: [],
-  declarations: [ValidationErrorComponent, AbstractValidationDirective],
+  exports: [ValidationGroupDirective],
+  declarations: [ValidationErrorComponent, AbstractValidationDirective, ValidationGroupDirective],
   entryComponents: [ValidationErrorComponent],
 })
 export class NgxValidateCoreModule {

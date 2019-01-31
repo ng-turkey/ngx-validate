@@ -5,6 +5,7 @@ import { BLUEPRINTS } from '../constants';
 import { defaultMapErrorsFn, evalPropTruthy } from '../utils';
 import { ValidationErrorComponent } from '../components';
 import { Observable, ReplaySubject, merge, never } from 'rxjs';
+import { ValidationGroupDirective } from '../directives/validation-group.directive';
 
 @Directive({
   selector: 'abstract-validation-directive',
@@ -35,7 +36,7 @@ export class AbstractValidationDirective implements OnDestroy {
     return (this.groupRef || ({} as FormGroupDirective)).form || (this.groupName || ({} as FormGroupName)).control;
   }
 
-  get parent(): Partial<any> {
+  get parent(): Partial<ValidationGroupDirective> {
     return this.parentRef || { getStream: () => null };
   }
 
@@ -74,7 +75,7 @@ export class AbstractValidationDirective implements OnDestroy {
   public elRef: ElementRef;
   public groupName: FormGroupName;
   public groupRef: FormGroupDirective;
-  public parentRef: any;
+  public parentRef: ValidationGroupDirective;
   constructor(public injector: Injector) {
     this.config = {
       errorTemplate: ValidationErrorComponent,
