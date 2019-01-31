@@ -1,1 +1,9 @@
-/* You can add global styles to this file, and also import other style files */
+.is-invalid .form-control {
+  border-color: #dc3545;
+  border-style: dashed !important;
+}
+
+.is-invalid .invalid-feedback,
+.is-invalid + * .invalid-feedback {
+  display: block;
+}
