@@ -1,10 +1,8 @@
 import { NgModule } from '@angular/core';
-import { CoreComponent } from './core.component';
 
 @NgModule({
-  declarations: [CoreComponent],
-  imports: [
-  ],
-  exports: [CoreComponent]
+  declarations: [],
+  imports: [],
+  exports: []
 })
-export class CoreModule { }
+export class NgxValidateCoreModule { }
