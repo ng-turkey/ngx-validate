@@ -9,16 +9,18 @@ import { AbstractValidationDirective } from './abstracts/abstract-validation.dir
 import { ValidationGroupDirective } from './directives/validation-group.directive';
 import { ValidationStyleDirective } from './directives/validation-style.directive';
 import { ValidationTargetDirective } from './directives/validation-target.directive';
+import { ValidationDirective } from './directives/validation.directive';
 
 @NgModule({
   imports: [CommonModule, FormsModule, ReactiveFormsModule],
-  exports: [ValidationGroupDirective, ValidationStyleDirective, ValidationTargetDirective],
+  exports: [ValidationGroupDirective, ValidationStyleDirective, ValidationTargetDirective, ValidationDirective],
   declarations: [
     ValidationErrorComponent,
     AbstractValidationDirective,
     ValidationGroupDirective,
     ValidationStyleDirective,
     ValidationTargetDirective,
+    ValidationDirective,
   ],
   entryComponents: [ValidationErrorComponent],
 })
