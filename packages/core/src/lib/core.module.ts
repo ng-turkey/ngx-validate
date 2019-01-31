@@ -1,7 +1,9 @@
 import { ModuleWithProviders, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Validation } from './models';
+import { Validation } from './models/validation.model';
 import { ValidationErrorComponent } from './components/validation-error.component';
+import { BLUEPRINTS } from './constants/blueprints';
+import { defaultMapErrorsFn } from './utils/mappers';
 
 @NgModule({
   imports: [CommonModule],
@@ -17,10 +19,10 @@ export class NgxValidateCoreModule {
         {
           provide: 'VALIDATION_CONFIG',
           useValue: {
-            blueprints: config.blueprints,
-            errorTemplate: config.errorTemplate,
-            invalidClasses: config.invalidClasses,
-            mapErrorsFn: config.mapErrorsFn,
+            blueprints: config.blueprints || BLUEPRINTS,
+            errorTemplate: config.errorTemplate || ValidationErrorComponent,
+            invalidClasses: config.invalidClasses || 'is-invalid',
+            mapErrorsFn: config.mapErrorsFn || defaultMapErrorsFn,
             targetSelector: config.targetSelector,
             validateOnSubmit: config.validateOnSubmit,
           },
