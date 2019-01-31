@@ -1,5 +1,6 @@
 import { ModuleWithProviders, NgModule } from '@angular/core';
 import { Validation } from './models';
+import { BLUEPRINTS } from './constants';
 
 @NgModule({
   declarations: [],
@@ -14,7 +15,7 @@ export class NgxValidateCoreModule {
         {
           provide: 'VALIDATION_CONFIG',
           useValue: {
-            blueprints: config.blueprints,
+            blueprints: config.blueprints || BLUEPRINTS,
             errorTemplate: config.errorTemplate,
             invalidClasses: config.invalidClasses,
             mapErrorsFn: config.mapErrorsFn,
