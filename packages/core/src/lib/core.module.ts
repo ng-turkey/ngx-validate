@@ -1,11 +1,13 @@
 import { ModuleWithProviders, NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { Validation } from './models';
-import { BLUEPRINTS } from './constants';
+import { ValidationErrorComponent } from './components/validation-error.component';
 
 @NgModule({
-  declarations: [],
-  imports: [],
+  imports: [CommonModule],
   exports: [],
+  declarations: [ValidationErrorComponent],
+  entryComponents: [ValidationErrorComponent],
 })
 export class NgxValidateCoreModule {
   static forRoot(config = {} as Validation.Config): ModuleWithProviders {
@@ -15,7 +17,7 @@ export class NgxValidateCoreModule {
         {
           provide: 'VALIDATION_CONFIG',
           useValue: {
-            blueprints: config.blueprints || BLUEPRINTS,
+            blueprints: config.blueprints,
             errorTemplate: config.errorTemplate,
             invalidClasses: config.invalidClasses,
             mapErrorsFn: config.mapErrorsFn,
