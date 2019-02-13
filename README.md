@@ -1,8 +1,11 @@
 # NgxValidate
 
 <p align="center">
+  <img src="https://travis-ci.org/ng-turkey/ngx-validate.svg?branch=master"/>
+  <a href="https://codeclimate.com/github/ng-turkey/ngx-validate/maintainability"><img src="https://api.codeclimate.com/v1/badges/1e3e683f0e67e72d7066/maintainability" /></a>
+  <a href="https://codeclimate.com/github/ng-turkey/ngx-validate/test_coverage"><img src="https://api.codeclimate.com/v1/badges/1e3e683f0e67e72d7066/test_coverage" /></a>
   <img src="https://img.shields.io/github/license/ng-turkey/ngx-validate.svg" />
-  <img src="https://img.shields.io/twitter/follow/ngTurkiye.svg?label=Follow"/>
+  <a href="https://twitter.com/ngTurkiye"><img src="https://img.shields.io/twitter/follow/ngTurkiye.svg?label=Follow"/></a>
 </p>
 
 This project is still a work-in-progress and, although it works fine, it should be used with caution.
@@ -64,8 +67,3 @@ export class AppModule {}
 - [ ] Contribution documentation
 
 - [ ] Tests
-
-
-## Sponsors
-
-<a href="https://www.etiya.com/" target="_blank"><img src="https://www.etiya.com/images/home/1216/large/39285.png"></a>
