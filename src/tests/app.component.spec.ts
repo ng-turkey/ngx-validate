@@ -1,9 +1,15 @@
-import { TestBed, ComponentFixture } from '@angular/core/testing';
-import { BrowserModule } from '@angular/platform-browser';
+import { TestBed, ComponentFixture, fakeAsync, tick } from '@angular/core/testing';
+import { BrowserModule, By } from '@angular/platform-browser';
 import { ReactiveFormsModule, FormGroup } from '@angular/forms';
 import { AppComponent } from '../app/app.component';
 import { AppRoutingModule } from '../app/app-routing.module';
-import { NgxValidateCoreModule } from '../../packages/core/src/public_api';
+import {
+  NgxValidateCoreModule,
+  ValidationStyleDirective,
+  ValidationTargetDirective,
+  ValidationErrorComponent,
+  Validation,
+} from '../../packages/core/src/public_api';
 
 describe('AppComponent', () => {
   let component: AppComponent;
@@ -13,46 +19,83 @@ describe('AppComponent', () => {
     TestBed.configureTestingModule({
       imports: [BrowserModule, AppRoutingModule, ReactiveFormsModule, NgxValidateCoreModule.forRoot()],
       declarations: [AppComponent],
-    }).compileComponents();
+    });
 
     fixture = TestBed.createComponent(AppComponent);
     component = fixture.componentInstance;
+
     fixture.detectChanges();
   });
 
-  it('should create', () => {
-    expect(component).toBeDefined();
-  });
+  it('should contain validationStyle directive', fakeAsync(() => {
+    // Arrange
+    const validationStyle = fixture.debugElement.query(By.directive(ValidationStyleDirective));
 
-  it('should create form and set default values', () => {
-    expect(component.form).toBeDefined();
-    const { credentials, consent } = component.form.controls;
-    const { username, password, repeat } = (credentials as FormGroup).controls;
-    username.setValue('username');
-    password.setValue('1234');
-    repeat.setValue('1234');
-    consent.setValue(true);
+    // Act
+    tick();
 
-    expect(username.value).toMatch('username');
-    expect(password.value).toEqual(repeat.value);
+    // Assert
+    expect(validationStyle).toBeTruthy();
+  }));
 
-    expect(component.form.valid).toBeFalsy();
-    expect(password.errors.invalidPassword).toBeTruthy();
-    expect(password.errors.minlength.actualLength < password.errors.minlength.requiredLength).toBeTruthy();
-  });
+  it('should contain validationTarget directive', fakeAsync(() => {
+    // Arrange
+    const validationTarget = fixture.debugElement.query(By.directive(ValidationTargetDirective));
 
-  it('form should be valid', () => {
-    expect(component.form).toBeDefined();
-    const { credentials, consent } = component.form.controls;
-    const { username, password, repeat } = (credentials as FormGroup).controls;
-    username.setValue('username');
-    password.setValue('1234aA');
-    repeat.setValue('1234aA');
-    consent.setValue(true);
+    // Act
+    tick();
 
-    expect(username.value).toMatch('username');
-    expect(password.value).toEqual(repeat.value);
+    // Assert
+    expect(validationTarget).toBeTruthy();
+  }));
 
-    expect(component.form.valid).toBeTruthy();
-  });
+  it('should show errors when form is invalid', fakeAsync(() => {
+    // Arrange
+    const form = component.form as FormGroup;
+    const { password } = (form.controls.credentials as FormGroup).controls;
+    const debug = fixture.debugElement;
+    const button = debug.query(By.css('button[type="submit"]'));
+
+    // Act
+    password.setValue('123');
+    button.nativeElement.click();
+    tick();
+    fixture.detectChanges();
+
+    // Arrange
+    const feedback: ValidationErrorComponent = debug.query(By.css('#password')).parent.query(By.css('validation-error'))
+      .componentInstance;
+
+    // Assert
+    expect(feedback instanceof ValidationErrorComponent).toBeTruthy();
+  }));
+
+  it('should contain expected errors', fakeAsync(() => {
+    // Arrange
+    const form = component.form as FormGroup;
+    const { password } = (form.controls.credentials as FormGroup).controls;
+    const debug = fixture.debugElement;
+    const button = debug.query(By.css('button[type="submit"]'));
+
+    // Act
+    password.setValue('123');
+    button.nativeElement.click();
+    tick();
+    fixture.detectChanges();
+
+    // Arrange
+    const feedback: ValidationErrorComponent = debug.query(By.css('#password')).parent.query(By.css('validation-error'))
+      .componentInstance;
+
+    const FEEDBACKS = [
+      'Min. 6 characters are required. (has 3)',
+      'Password should include a small letter and a capital.',
+    ];
+    let errors: boolean[] = feedback.errors.map(
+      (error: Validation.Error, index: number) => FEEDBACKS[index] === error.message,
+    );
+
+    // Assert
+    expect(errors.filter(Boolean).length).toBe(errors.length);
+  }));
 });
