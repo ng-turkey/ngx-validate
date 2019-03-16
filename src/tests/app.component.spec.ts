@@ -70,6 +70,26 @@ describe('AppComponent', () => {
     expect(feedback instanceof ValidationErrorComponent).toBeTruthy();
   }));
 
+  it('should show errors value not in given range', fakeAsync(() => {
+    // Arrange
+    const { count } = getFormControls(component.form);
+    const debug: DebugElement = fixture.debugElement;
+    const button: DebugElement = debug.query(By.css('button[type="submit"]'));
+
+    // Act
+    count.setValue(5);
+    button.nativeElement.click();
+    tick();
+    fixture.detectChanges();
+
+    // Arrange
+    const feedback: ValidationErrorComponent = debug.query(By.css('#count')).parent.query(By.css('validation-error'))
+      .componentInstance;
+
+    // Assert
+    expect(feedback instanceof ValidationErrorComponent).toBeTruthy();
+  }));
+
   it('should contain expected errors', fakeAsync(() => {
     // Arrange
     const { password } = getFormControls(component.form);
@@ -98,17 +118,19 @@ describe('AppComponent', () => {
 
   it('should contain no errors when form is valid', fakeAsync(() => {
     // Arrange
-    const { consent, password, repeat, username } = getFormControls(component.form);
+    const { consent, password, repeat, username, count } = getFormControls(component.form);
     const debug: DebugElement = fixture.debugElement;
     const button: DebugElement = debug.query(By.css('button[type="submit"]'));
     const PASSWORD = '159Aa&1q';
     const USERNAME = 'ghost';
+    const COUNT = 3;
 
     // Act
     username.setValue(USERNAME);
     password.setValue(PASSWORD);
     repeat.setValue(PASSWORD);
     consent.setValue(true);
+    count.setValue(COUNT);
 
     button.nativeElement.click();
     tick();
@@ -124,11 +146,12 @@ describe('AppComponent', () => {
 
 function getFormControls(form: FormGroup): { [key: string]: AbstractControl } {
   const { consent } = form.controls;
-  const { password, repeat, username } = (form.controls.credentials as FormGroup).controls;
+  const { password, repeat, username, count } = (form.controls.credentials as FormGroup).controls;
   return {
     consent,
     password,
     repeat,
     username,
+    count,
   };
 }

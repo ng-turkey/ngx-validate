@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, ViewEncapsulation } from '@angular/core';
-import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { comparePasswords, validatePassword, Validation } from '../../packages/core/src/public_api';
-
+import { rangeValidator } from './validators/range.validator';
 const { minLength, required, requiredTrue } = Validators;
 
 const PASSWORD_FIELDS = ['password', 'repeat'];
@@ -49,6 +49,7 @@ export class AppComponent {
             }),
             {},
           ),
+          count: new FormControl(null, [rangeValidator(10, 15)]),
         },
         {
           validators: [comparePasswords(PASSWORD_FIELDS)],
