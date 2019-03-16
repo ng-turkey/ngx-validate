@@ -123,7 +123,7 @@ describe('AppComponent', () => {
     const button: DebugElement = debug.query(By.css('button[type="submit"]'));
     const PASSWORD = '159Aa&1q';
     const USERNAME = 'ghost';
-    const COUNT = 3;
+    const COUNT = 12;
 
     // Act
     username.setValue(USERNAME);
