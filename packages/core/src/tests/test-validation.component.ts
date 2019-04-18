@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, ViewEncapsulation } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-test-validation',
@@ -8,5 +8,9 @@ import { FormControl, FormGroup } from '@angular/forms';
   encapsulation: ViewEncapsulation.None,
 })
 export class TestValidationComponent {
-  form = new FormGroup({ name: new FormControl('') });
+  form = new FormGroup({ name: new FormControl(null, { validators: [Validators.required] }) });
+
+  onSubmit() {
+    return;
+  }
 }
