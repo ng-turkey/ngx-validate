@@ -47,19 +47,22 @@ describe('ValidationErrorComponent', function(this: UValidationErrorComponent) {
       expect(this.component).not.toBeUndefined();
     });
 
-    it('should be class equal to invalid-feedback', () => {
+    it('should have invalid-feedback as class', () => {
       const el: HTMLElement = this.fixture.debugElement.query(By.css('div')).nativeElement;
-      expect(el.className).toEqual('invalid-feedback');
+      expect(el.className).toBe('invalid-feedback');
     });
 
-    it('should be div elements length equal to errors length', () => {
+    it('should have as many div elements as errors', () => {
       const elements = this.fixture.debugElement.queryAll(By.css('div'));
-      expect(elements.length).toEqual(this.errors.length);
+      expect(elements.length).toBe(this.errors.length);
     });
 
-    it('should have div element error message', () => {
-      const element: HTMLElement = this.fixture.debugElement.query(By.css('div')).nativeElement;
-      expect(element.textContent).toEqual(this.errors[0].message);
+    it('should have div elements error message', () => {
+      const textContents = this.fixture.debugElement
+        .queryAll(By.css('div'))
+        .map(el => (el.nativeElement as HTMLElement).textContent);
+
+      expect(textContents).toEqual(this.errors.map(({ message }) => message));
     });
   });
 });
