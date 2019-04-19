@@ -60,7 +60,7 @@ describe('ValidationErrorComponent', function(this: UValidationErrorComponent) {
     it('should have div elements error message', () => {
       const textContents = this.fixture.debugElement
         .queryAll(By.css('div'))
-        .map(el => (el.nativeElement as HTMLElement).textContent);
+        .map(({ nativeElement }) => nativeElement.textContent);
 
       expect(textContents).toEqual(this.errors.map(({ message }) => message));
     });
