@@ -12,7 +12,7 @@ export interface UValidationErrorComponent {
 }
 
 describe('ValidationErrorComponent', function(this: UValidationErrorComponent) {
-  describe('as a integration', () => {
+  describe('as a unit', () => {
     this.errors = [
       { key: 'required', message: 'This field is required' },
       { key: 'requiredTrue', message: 'Must be checked' },
