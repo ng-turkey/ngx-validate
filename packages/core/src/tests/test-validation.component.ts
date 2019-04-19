@@ -9,8 +9,4 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 })
 export class TestValidationComponent {
   form = new FormGroup({ name: new FormControl(null, { validators: [Validators.required] }) });
-
-  onSubmit() {
-    return;
-  }
 }

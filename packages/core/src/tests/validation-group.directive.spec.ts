@@ -15,12 +15,12 @@ export interface UValidationGroupDirective {
 }
 
 describe('ValidationGroupDirective', function(this: UValidationGroupDirective) {
-  describe('group', () => {
+  describe('as a unit', () => {
     beforeEach(() => {
       TestBed.overrideComponent(TestValidationComponent, {
         set: {
           template: `
-          <form [formGroup]="form" (ngSubmit)="onSubmit()">
+          <form [formGroup]="form">
             <input formControlName="name" />
             <button type="submit"></button>
           </form>
@@ -63,7 +63,7 @@ describe('ValidationGroupDirective', function(this: UValidationGroupDirective) {
       expect(this.validationGroup.groupRef).toEqual(this.formGroup);
     });
 
-    it('should emit value$ on change form value', done => {
+    it('should emit value$ on form value change', done => {
       this.validationGroup.value$.subscribe(form => {
         expect(form.get('name').value).toEqual('test');
         done();
@@ -71,7 +71,7 @@ describe('ValidationGroupDirective', function(this: UValidationGroupDirective) {
       this.component.form.get('name').setValue('test');
     });
 
-    it('should emit submit$ on submit form', done => {
+    it('should emit submit$ on form submit', done => {
       this.validationGroup.submit$.subscribe(form => {
         expect(form).toEqual(this.component.form);
         done();
@@ -79,9 +79,9 @@ describe('ValidationGroupDirective', function(this: UValidationGroupDirective) {
       this.fixture.debugElement.nativeElement.querySelector('button').click();
     });
 
-    it('should emit status$ when form status changed', done => {
+    it('should emit status$ on form status change', done => {
       this.validationGroup.status$.subscribe(form => {
-        expect(form).toEqual(this.component.form);
+        expect(form.valid).toBe(true);
         done();
       });
       this.component.form.get('name').setValue('John');
