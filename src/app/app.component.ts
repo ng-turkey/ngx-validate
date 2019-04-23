@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, ViewEncapsulation } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { comparePasswords, validatePassword, Validation } from '../../packages/core/src/public_api';
+import { Validation } from '@ngx-validate/core';
+import { validatePassword, comparePasswords } from 'packages/validators/src/lib/validators';
 
 const { minLength, required, requiredTrue } = Validators;
 
