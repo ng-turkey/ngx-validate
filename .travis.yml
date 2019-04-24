@@ -6,8 +6,8 @@ node_js:
 cache: yarn
 
 install:
-  - yarn install
-
+  - yarn
+  - cd packages/validators | yarn
 script:
   # CHECK STYLE
   # - yarn run lint
