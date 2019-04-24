@@ -6,7 +6,7 @@
     "type": "git",
     "url": "git+https://github.com/ng-turkey/ngx-validate.git"
   },
-  "peerDependencies": {
-    "@ngx-validate/core": ">=0.0.1"
+  "dependencies": {
+    "@ngx-validate/core": "0.0.1"
   }
 }
