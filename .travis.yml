@@ -1,7 +1,7 @@
 language: node_js
 sudo: false
 node_js:
-  - "11.4.0"
+  - '11.4.0'
 
 cache: yarn
 
@@ -14,7 +14,7 @@ script:
 
   # BUILD STAGE
   - yarn run build:core
+  - yarn run build:validators
   - yarn run build:demo
-
   # TEST STAGE
   #- yarn run test
