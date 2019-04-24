@@ -7,7 +7,9 @@ cache: yarn
 
 install:
   - yarn
-  - cd packages/validators | yarn
+
+before_script:
+  - cd packages/validators && yarn && cd ../..
 script:
   # CHECK STYLE
   # - yarn run lint
