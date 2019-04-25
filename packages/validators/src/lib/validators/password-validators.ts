@@ -1,5 +1,5 @@
 import { AbstractControl, FormGroup, ValidatorFn } from '@angular/forms';
-import { normalizeDiacritics, addCommas } from '@ngx-validate/core';
+import { normalizeDiacritics, addCommas } from '../../utils';
 
 export function comparePasswords([controlName1, controlName2]: string[]): ValidatorFn {
   return (group: FormGroup) => {
