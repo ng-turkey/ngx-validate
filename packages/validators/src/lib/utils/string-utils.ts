@@ -1,4 +1,4 @@
-import { Validators } from './models';
+import { Validators } from '../models';
 
 const CHARMAP: Validators.ParamMap = {
   á: 'a',
