@@ -9,7 +9,8 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "symlink": "symlink copy --angular"
+    "symlink": "symlink copy --angular --packages @ngx-validate/core",
+    "symlink-ci": "symlink copy --angular --packages @ngx-validate/core --no-watch"
   },
   "private": true,
   "dependencies": {
