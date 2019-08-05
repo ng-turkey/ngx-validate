@@ -13,8 +13,7 @@ script:
   # - yarn run lint
 
   # BUILD STAGE
-  - yarn run build:core
+  - yarn run symlink-ci
   - yarn run build:demo
-
   # TEST STAGE
   #- yarn run test
