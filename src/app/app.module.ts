@@ -4,7 +4,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { NgxValidateCoreModule } from '../../packages/core/src/public_api';
+import { NgxValidateCoreModule } from 'core';
 
 @NgModule({
   declarations: [AppComponent],
