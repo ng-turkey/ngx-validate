@@ -12,25 +12,25 @@ import { ValidationGroupDirective } from '../directives/validation-group.directi
 })
 export class AbstractValidationDirective implements OnDestroy {
   @Input('blueprints')
-  private readonly _blueprints: Validation.Blueprints;
+  _blueprints: Validation.Blueprints;
 
   @Input('errorTemplate')
-  private readonly _errorTemplate: TemplateRef<any> | Type<any>;
+  _errorTemplate: TemplateRef<any> | Type<any>;
 
   @Input('invalidClasses')
-  private readonly _invalidClasses: string;
+  _invalidClasses: string;
 
   @Input('mapErrorsFn')
-  private readonly _mapErrorsFn: Validation.MapErrorsFn;
+  _mapErrorsFn: Validation.MapErrorsFn;
 
   @Input('skipValidation')
-  private readonly _skipValidation: boolean;
+  _skipValidation: boolean;
 
   @Input('targetSelector')
-  private readonly _targetSelector: string;
+  _targetSelector: string;
 
   @Input('validateOnSubmit')
-  private readonly _validateOnSubmit: boolean;
+  _validateOnSubmit: boolean;
 
   get group(): FormGroup {
     return (this.groupRef || ({} as FormGroupDirective)).form || (this.groupName || ({} as FormGroupName)).control;

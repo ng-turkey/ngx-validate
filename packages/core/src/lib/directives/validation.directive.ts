@@ -11,6 +11,8 @@ import {
   SkipSelf,
   TemplateRef,
   ViewContainerRef,
+  Type,
+  Input,
 } from '@angular/core';
 import { FormGroup, NgControl, ValidationErrors } from '@angular/forms';
 import { AbstractValidationDirective } from '../abstracts';
@@ -29,6 +31,27 @@ import { mapTo } from 'rxjs/operators';
 export class ValidationDirective extends AbstractValidationDirective implements AfterViewInit {
   private errorRef: ComponentRef<ValidationErrorComponent> | EmbeddedViewRef<any>;
   private markElement: HTMLElement;
+
+  @Input('blueprints')
+  _blueprints: Validation.Blueprints;
+
+  @Input('errorTemplate')
+  _errorTemplate: TemplateRef<any> | Type<any>;
+
+  @Input('invalidClasses')
+  _invalidClasses: string;
+
+  @Input('mapErrorsFn')
+  _mapErrorsFn: Validation.MapErrorsFn;
+
+  @Input('skipValidation')
+  _skipValidation: boolean;
+
+  @Input('targetSelector')
+  _targetSelector: string;
+
+  @Input('validateOnSubmit')
+  _validateOnSubmit: boolean;
 
   get validation$(): Observable<FormGroup> {
     return merge(
