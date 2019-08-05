@@ -1,15 +1,15 @@
 {
   "name": "@ngx-validate/core",
-  "version": "0.0.1",
+  "version": "0.0.4",
   "license": "MIT",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/ng-turkey/ngx-validate.git"
   },
   "peerDependencies": {
-    "@angular/common": ">=5.0.0 <8.0.0",
-    "@angular/core": ">=5.0.0 <8.0.0",
-    "@angular/forms": ">=5.0.0 <8.0.0",
+    "@angular/common": ">=5.0.0 <9.0.0",
+    "@angular/core": ">=5.0.0 <9.0.0",
+    "@angular/forms": ">=5.0.0 <9.0.0",
     "rxjs": ">=6.0.0 || ^5.6.0-forward-compat.4"
   }
 }
