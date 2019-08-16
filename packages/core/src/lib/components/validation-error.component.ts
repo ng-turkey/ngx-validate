@@ -17,15 +17,11 @@ import { Validation } from '../models';
   encapsulation: ViewEncapsulation.None,
 })
 export class ValidationErrorComponent {
+  validationErrors: Validation.Error[];
+
   trackByFn: TrackByFunction<Validation.Error> = (_, item) => item.key;
 
   get errors(): Validation.Error[] {
     return this.validationErrors || [];
   }
-
-  constructor(
-    @Optional()
-    @Inject('VALIDATION_ERRORS')
-    protected readonly validationErrors: Validation.Error[],
-  ) {}
 }
