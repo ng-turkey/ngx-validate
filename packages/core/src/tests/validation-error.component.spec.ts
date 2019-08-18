@@ -31,15 +31,12 @@ describe('ValidationErrorComponent', function(this: UValidationErrorComponent) {
               mapErrorsFn: defaultMapErrorsFn,
             },
           },
-          {
-            provide: 'VALIDATION_ERRORS',
-            useValue: this.errors,
-          },
         ],
       }).compileComponents();
 
       this.fixture = TestBed.createComponent(ValidationErrorComponent);
       this.component = this.fixture.componentInstance;
+      this.component.validationErrors = this.errors;
       this.fixture.detectChanges();
     });
 

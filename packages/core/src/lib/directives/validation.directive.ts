@@ -91,20 +91,17 @@ export class ValidationDirective extends AbstractValidationDirective implements 
       this.control,
     );
 
-    const injector = Injector.create([
-      {
-        provide: 'VALIDATION_ERRORS',
-        useValue: errors as Validation.Error[],
-      },
-    ]);
-
     const template = this.errorTemplate;
     const vcRef = this.targetRef ? this.targetRef.vcRef : this.vcRef;
 
     this.errorRef =
       template instanceof TemplateRef
         ? vcRef.createEmbeddedView(template, { $implicit: errors }, vcRef.length)
-        : vcRef.createComponent(this.cfRes.resolveComponentFactory(template), vcRef.length, injector);
+        : vcRef.createComponent(this.cfRes.resolveComponentFactory(template), vcRef.length, this.injector);
+
+    if (this.errorRef instanceof ComponentRef && this.errorRef.instance) {
+      (this.errorRef as ComponentRef<any>).instance.validationErrors = errors;
+    }
   }
 
   private removeErrors(): void {
