@@ -4,6 +4,14 @@ import { By } from '@angular/platform-browser';
 import { ValidationErrorComponent } from '../lib/components/validation-error.component';
 import { BLUEPRINTS } from '../lib/constants';
 import { ValidationGroupDirective } from '../lib/directives/validation-group.directive';
+import {
+  VALIDATION_BLUEPRINTS,
+  VALIDATION_ERROR_TEMPLATE,
+  VALIDATION_INVALID_CLASSES,
+  VALIDATION_MAP_ERRORS_FN,
+  VALIDATION_TARGET_SELECTOR,
+  VALIDATION_VALIDATE_ON_SUBMIT,
+} from '../lib/tokens';
 import { defaultMapErrorsFn } from '../lib/utils/mappers';
 import { TestValidationComponent } from './test-validation.component';
 
@@ -33,13 +41,28 @@ describe('ValidationGroupDirective', function(this: UValidationGroupDirective) {
         declarations: [ValidationGroupDirective, TestValidationComponent],
         providers: [
           {
-            provide: 'VALIDATION_CONFIG',
-            useValue: {
-              blueprints: BLUEPRINTS,
-              errorTemplate: ValidationErrorComponent,
-              invalidClasses: 'is-invalid',
-              mapErrorsFn: defaultMapErrorsFn,
-            },
+            provide: VALIDATION_BLUEPRINTS,
+            useValue: BLUEPRINTS,
+          },
+          {
+            provide: VALIDATION_ERROR_TEMPLATE,
+            useValue: ValidationErrorComponent,
+          },
+          {
+            provide: VALIDATION_INVALID_CLASSES,
+            useValue: 'is-invalid',
+          },
+          {
+            provide: VALIDATION_MAP_ERRORS_FN,
+            useValue: defaultMapErrorsFn,
+          },
+          {
+            provide: VALIDATION_TARGET_SELECTOR,
+            useValue: null,
+          },
+          {
+            provide: VALIDATION_VALIDATE_ON_SUBMIT,
+            useValue: false,
           },
         ],
       }).compileComponents();

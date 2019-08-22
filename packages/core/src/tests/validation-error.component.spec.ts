@@ -1,8 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { ValidationErrorComponent } from '../lib/components/validation-error.component';
-import { BLUEPRINTS } from '../lib/constants';
-import { defaultMapErrorsFn } from '../lib/utils/mappers';
 import { By } from '@angular/platform-browser';
+import { ValidationErrorComponent } from '../lib/components/validation-error.component';
 import { Validation } from '../lib/models';
 
 export interface UValidationErrorComponent {
@@ -21,17 +19,6 @@ describe('ValidationErrorComponent', function(this: UValidationErrorComponent) {
     beforeEach(() => {
       TestBed.configureTestingModule({
         declarations: [ValidationErrorComponent],
-        providers: [
-          {
-            provide: 'VALIDATION_CONFIG',
-            useValue: {
-              blueprints: BLUEPRINTS,
-              errorTemplate: ValidationErrorComponent,
-              invalidClasses: 'is-invalid',
-              mapErrorsFn: defaultMapErrorsFn,
-            },
-          },
-        ],
       }).compileComponents();
 
       this.fixture = TestBed.createComponent(ValidationErrorComponent);

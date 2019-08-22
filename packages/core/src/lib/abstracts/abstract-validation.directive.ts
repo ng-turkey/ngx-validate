@@ -1,11 +1,18 @@
 import { Directive, ElementRef, Injector, Input, OnDestroy, TemplateRef, Type } from '@angular/core';
 import { FormGroup, FormGroupDirective, FormGroupName } from '@angular/forms';
-import { Validation } from '../models';
+import { merge, never, Observable, ReplaySubject } from 'rxjs';
 import { BLUEPRINTS } from '../constants';
-import { defaultMapErrorsFn, evalPropTruthy } from '../utils';
-import { ValidationErrorComponent } from '../components';
-import { Observable, ReplaySubject, merge, never } from 'rxjs';
 import { ValidationGroupDirective } from '../directives/validation-group.directive';
+import { Validation } from '../models';
+import {
+  VALIDATION_BLUEPRINTS,
+  VALIDATION_ERROR_TEMPLATE,
+  VALIDATION_INVALID_CLASSES,
+  VALIDATION_MAP_ERRORS_FN,
+  VALIDATION_TARGET_SELECTOR,
+  VALIDATION_VALIDATE_ON_SUBMIT,
+} from '../tokens';
+import { evalPropTruthy } from '../utils';
 
 @Directive({
   selector: 'abstract-validation-directive',
@@ -78,10 +85,12 @@ export class AbstractValidationDirective implements OnDestroy {
   public parentRef: ValidationGroupDirective;
   constructor(public injector: Injector) {
     this.config = {
-      errorTemplate: ValidationErrorComponent,
-      invalidClasses: 'is-invalid',
-      mapErrorsFn: defaultMapErrorsFn,
-      ...(injector.get('VALIDATION_CONFIG') || {}),
+      blueprints: injector.get(VALIDATION_BLUEPRINTS),
+      errorTemplate: injector.get(VALIDATION_ERROR_TEMPLATE),
+      invalidClasses: injector.get(VALIDATION_INVALID_CLASSES),
+      mapErrorsFn: injector.get(VALIDATION_MAP_ERRORS_FN),
+      targetSelector: injector.get(VALIDATION_TARGET_SELECTOR),
+      validateOnSubmit: injector.get(VALIDATION_VALIDATE_ON_SUBMIT),
     };
     this.elRef = injector.get(ElementRef);
   }
