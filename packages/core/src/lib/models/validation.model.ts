@@ -1,10 +1,10 @@
-import { Type } from '@angular/core';
+import { TemplateRef, Type } from '@angular/core';
 import { NgControl } from '@angular/forms';
 
 export namespace Validation {
   export type Config = Partial<{
     blueprints: Blueprints;
-    errorTemplate: Type<any>;
+    errorTemplate: Type<any> | TemplateRef<any>;
     invalidClasses: string;
     mapErrorsFn: MapErrorsFn;
     skipValidation: boolean;

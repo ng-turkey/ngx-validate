@@ -1,16 +1,10 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  Inject,
-  Optional,
-  TrackByFunction,
-  ViewEncapsulation,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, TrackByFunction, ViewEncapsulation } from '@angular/core';
 import { Validation } from '../models';
 
 @Component({
   selector: 'validation-error',
   template: `
+    {{ errors }}
     <div *ngFor="let error of errors; trackBy: trackByFn" class="invalid-feedback">{{ error.message }}</div>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
