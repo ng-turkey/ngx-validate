@@ -126,7 +126,10 @@ export class ValidationDirective extends AbstractValidationDirective implements 
 
       this.removeErrors();
 
-      if (this.control.invalid && (this.control.dirty || form)) {
+      if (
+        (this.control.invalid && (this.control.dirty || form)) ||
+        hasGroupError(this.parentRef.group, this.control.name)
+      ) {
         this.insertErrors();
 
         this.renderer.addClass(this.markElement, this.invalidClasses);
@@ -139,5 +142,13 @@ export class ValidationDirective extends AbstractValidationDirective implements 
   ngAfterViewInit(): void {
     this.setMarkElement();
     this.subscribeToValidation();
+  }
+}
+
+function hasGroupError(group: FormGroup, field: string): boolean {
+  try {
+    return !!Object.keys(group.errors).find(key => group.errors[key].fields.indexOf(field) > -1);
+  } catch (err) {
+    return false;
   }
 }
