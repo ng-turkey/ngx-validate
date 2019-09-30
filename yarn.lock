@@ -311,13 +311,6 @@
     tree-kill "1.2.1"
     webpack-sources "1.3.0"
 
-"@ngx-validate/core@^0.0.4":
-  version "0.0.4"
-  resolved "https://registry.yarnpkg.com/@ngx-validate/core/-/core-0.0.4.tgz#1e07573984398626d00d3f08612c09f98b45a800"
-  integrity sha512-PSOd40Y+H2Gq4hxjGWKScDXI0svSMHYVw4QBxvdEKSNlAk+bon2H4xjJW4Pe2GShekuGGlBWNQ8oXrU7Zin+Ug==
-  dependencies:
-    tslib "^1.9.0"
-
 "@schematics/angular@8.2.0":
   version "8.2.0"
   resolved "https://registry.yarnpkg.com/@schematics/angular/-/angular-8.2.0.tgz#1ac24ed3708a197088119ca419e421a161ad2fd9"

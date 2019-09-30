@@ -4,7 +4,6 @@ import { Validation } from '../models';
 @Component({
   selector: 'validation-error',
   template: `
-    {{ errors }}
     <div *ngFor="let error of errors; trackBy: trackByFn" class="invalid-feedback">{{ error.message }}</div>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
