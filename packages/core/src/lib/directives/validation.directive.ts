@@ -5,25 +5,25 @@ import {
   Directive,
   EmbeddedViewRef,
   Injector,
+  Input,
   Optional,
   Renderer2,
   Self,
   SkipSelf,
   TemplateRef,
-  ViewContainerRef,
   Type,
-  Input,
+  ViewContainerRef,
 } from '@angular/core';
 import { FormGroup, NgControl, ValidationErrors } from '@angular/forms';
+import { merge, never, Observable } from 'rxjs';
+import { mapTo } from 'rxjs/operators';
 import { AbstractValidationDirective } from '../abstracts';
-import { ValidationGroupDirective } from './validation-group.directive';
-import { ValidationStyleDirective } from './validation-style.directive';
-import { ValidationTargetDirective } from './validation-target.directive';
 import { ValidationErrorComponent } from '../components';
 import { Validation } from '../models';
 import { generateValidationError, takeUntilDestroy } from '../utils';
-import { Observable, never, merge } from 'rxjs';
-import { mapTo } from 'rxjs/operators';
+import { ValidationGroupDirective } from './validation-group.directive';
+import { ValidationStyleDirective } from './validation-style.directive';
+import { ValidationTargetDirective } from './validation-target.directive';
 
 @Directive({
   selector: '[formControl],[formControlName]',
@@ -84,13 +84,7 @@ export class ValidationDirective extends AbstractValidationDirective implements 
     return Object.keys(errors || {}).map(key => generateValidationError(key, errors[key], this.blueprints[key]));
   }
 
-  private insertErrors(): void {
-    const errors = this.mapErrorsFn(
-      this.buildErrors(this.control.errors),
-      this.buildErrors(this.parentRef.group.errors),
-      this.control,
-    );
-
+  private insertErrors(errors: Validation.Error[]): void {
     const template = this.errorTemplate;
     const vcRef = this.targetRef ? this.targetRef.vcRef : this.vcRef;
 
@@ -126,8 +120,14 @@ export class ValidationDirective extends AbstractValidationDirective implements 
 
       this.removeErrors();
 
-      if (this.control.invalid && (this.control.dirty || form)) {
-        this.insertErrors();
+      const errors = this.mapErrorsFn(
+        this.buildErrors(this.control.errors),
+        this.buildErrors(this.parentRef.group.errors),
+        this.control,
+      );
+
+      if (errors.length && (this.control.dirty || form)) {
+        this.insertErrors(errors);
 
         this.renderer.addClass(this.markElement, this.invalidClasses);
       } else {
