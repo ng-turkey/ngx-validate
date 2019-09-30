@@ -1,7 +1,11 @@
 import { Validation } from '../models';
 import { mapReplace } from './string-utils';
 
-export function generateValidationError(key: string, params: Validation.ParamMap, blueprint: string): Validation.Error {
+export function generateValidationError(
+  key: string,
+  params: Validation.ParamMap,
+  blueprint: string,
+): Validation.Error {
   return {
     key,
     params,
@@ -9,6 +13,8 @@ export function generateValidationError(key: string, params: Validation.ParamMap
   };
 }
 
-export const defaultMapErrorsFn: Validation.MapErrorsFn = function(errors: Validation.Error[]) {
+export const defaultMapErrorsFn: Validation.MapErrorsFn = (
+  errors: Validation.Error[],
+) => {
   return errors;
 };

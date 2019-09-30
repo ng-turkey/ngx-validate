@@ -3,23 +3,25 @@ import {
   ChangeDetectorRef,
   Directive,
   Injector,
+  Input,
   Optional,
   Self,
   SkipSelf,
-  Input,
   TemplateRef,
   Type,
 } from '@angular/core';
 import { FormGroup, FormGroupDirective, FormGroupName } from '@angular/forms';
-import { AbstractValidationDirective } from '../abstracts';
-import { takeUntilDestroy } from '../utils';
 import { ReplaySubject } from 'rxjs';
+import { AbstractValidationDirective } from '../abstracts';
 import { Validation } from '../models';
+import { takeUntilDestroy } from '../utils';
 
 @Directive({
-  selector: '[formGroup],[formGroupName]',
+  /* tslint:disable-next-line */
+  selector: "[formGroup],[formGroupName]"
 })
-export class ValidationGroupDirective extends AbstractValidationDirective implements AfterViewInit {
+export class ValidationGroupDirective extends AbstractValidationDirective
+  implements AfterViewInit {
   status$ = new ReplaySubject<FormGroup>(1);
   submit$ = new ReplaySubject<FormGroup>(1);
   value$ = new ReplaySubject<FormGroup>(1);
@@ -62,16 +64,13 @@ export class ValidationGroupDirective extends AbstractValidationDirective implem
   }
 
   ngAfterViewInit() {
-    if (!this.parentRef) {
+    if (!this.parentRef)
       (this.elRef.nativeElement as HTMLFormElement).onsubmit = event => {
-        if (this.group.invalid) {
-          event.preventDefault();
-        }
+        if (this.group.invalid) event.preventDefault();
 
         this.submit$.next(this.group);
         this.cdRef.markForCheck();
       };
-    }
 
     this.group.statusChanges.pipe(takeUntilDestroy(this)).subscribe(() => {
       this.status$.next(this.group);

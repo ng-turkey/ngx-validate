@@ -1,15 +1,30 @@
-import { ChangeDetectionStrategy, Component, ViewEncapsulation } from '@angular/core';
-import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { validatePassword, comparePasswords, Validation } from '@ngx-validate/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  ViewEncapsulation,
+} from '@angular/core';
+import {
+  AbstractControl,
+  FormBuilder,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
+import {
+  comparePasswords,
+  validatePassword,
+  Validation,
+} from '@ngx-validate/core';
 
 const { minLength, required, requiredTrue } = Validators;
 
 const PASSWORD_FIELDS = ['password', 'repeat'];
 
-const mapErrorsFn: Validation.MapErrorsFn = function(errors, groupErrors, control) {
+const mapErrorsFn: Validation.MapErrorsFn = (errors, groupErrors, control) => {
   if (PASSWORD_FIELDS.indexOf(control.name) < 0) return errors;
 
-  return errors.concat(groupErrors.filter(({ key }) => key === 'passwordMismatch'));
+  return errors.concat(
+    groupErrors.filter(({ key }) => key === 'passwordMismatch'),
+  );
 };
 
 @Component({
@@ -43,7 +58,11 @@ export class AppComponent {
               [key]: [
                 '',
                 {
-                  validators: [required, minLength(6), validatePassword(['small', 'capital', 'number'])],
+                  validators: [
+                    required,
+                    minLength(6),
+                    validatePassword(['small', 'capital', 'number']),
+                  ],
                 },
               ],
             }),

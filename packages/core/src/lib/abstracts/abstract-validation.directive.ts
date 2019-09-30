@@ -1,6 +1,14 @@
-import { Directive, ElementRef, Injector, Input, OnDestroy, TemplateRef, Type } from '@angular/core';
+import {
+  Directive,
+  ElementRef,
+  Injector,
+  Input,
+  OnDestroy,
+  TemplateRef,
+  Type,
+} from '@angular/core';
 import { FormGroup, FormGroupDirective, FormGroupName } from '@angular/forms';
-import { merge, never, Observable, ReplaySubject } from 'rxjs';
+import { merge, NEVER, Observable, ReplaySubject } from 'rxjs';
 import { BLUEPRINTS } from '../constants';
 import { ValidationGroupDirective } from '../directives/validation-group.directive';
 import { Validation } from '../models';
@@ -15,7 +23,8 @@ import {
 import { evalPropTruthy } from '../utils';
 
 @Directive({
-  selector: 'abstract-validation-directive',
+  /* tslint:disable-next-line */
+  selector: "abstractValidationDirective"
 })
 export class AbstractValidationDirective implements OnDestroy {
   @Input('blueprints')
@@ -40,7 +49,10 @@ export class AbstractValidationDirective implements OnDestroy {
   _validateOnSubmit: boolean;
 
   get group(): FormGroup {
-    return (this.groupRef || ({} as FormGroupDirective)).form || (this.groupName || ({} as FormGroupName)).control;
+    return (
+      (this.groupRef || ({} as FormGroupDirective)).form ||
+      (this.groupName || ({} as FormGroupName)).control
+    );
   }
 
   get parent(): Partial<ValidationGroupDirective> {
@@ -50,39 +62,64 @@ export class AbstractValidationDirective implements OnDestroy {
   get blueprints(): Validation.Blueprints {
     return {
       ...BLUEPRINTS,
-      ...(this._blueprints || this.parent.blueprints || this.config.blueprints || {}),
+      ...(this._blueprints ||
+        this.parent.blueprints ||
+        this.config.blueprints ||
+        {}),
     };
   }
 
   get errorTemplate(): TemplateRef<any> | Type<any> {
-    return this._errorTemplate || this.parent.errorTemplate || this.config.errorTemplate;
+    return (
+      this._errorTemplate ||
+      this.parent.errorTemplate ||
+      this.config.errorTemplate
+    );
   }
 
   get invalidClasses(): string {
-    return this._invalidClasses || this.parent.invalidClasses || this.config.invalidClasses;
+    return (
+      this._invalidClasses ||
+      this.parent.invalidClasses ||
+      this.config.invalidClasses
+    );
   }
 
   get mapErrorsFn(): Validation.MapErrorsFn {
-    return this._mapErrorsFn || this.parent.mapErrorsFn || this.config.mapErrorsFn;
+    return (
+      this._mapErrorsFn || this.parent.mapErrorsFn || this.config.mapErrorsFn
+    );
   }
 
   get skipValidation(): boolean {
-    return evalPropTruthy(this._skipValidation) || this.parent.skipValidation || this.config.skipValidation;
+    return (
+      evalPropTruthy(this._skipValidation) ||
+      this.parent.skipValidation ||
+      this.config.skipValidation
+    );
   }
 
   get targetSelector(): string {
-    return this._targetSelector || this.parent.targetSelector || this.config.targetSelector;
+    return (
+      this._targetSelector ||
+      this.parent.targetSelector ||
+      this.config.targetSelector
+    );
   }
 
   get validateOnSubmit(): boolean {
-    return evalPropTruthy(this._validateOnSubmit) || this.parent.validateOnSubmit || this.config.validateOnSubmit;
+    return (
+      evalPropTruthy(this._validateOnSubmit) ||
+      this.parent.validateOnSubmit ||
+      this.config.validateOnSubmit
+    );
   }
 
-  public config: Validation.Config;
-  public elRef: ElementRef;
-  public groupName: FormGroupName;
-  public groupRef: FormGroupDirective;
-  public parentRef: ValidationGroupDirective;
+  config: Validation.Config;
+  elRef: ElementRef;
+  groupName: FormGroupName;
+  groupRef: FormGroupDirective;
+  parentRef: ValidationGroupDirective;
   constructor(public injector: Injector) {
     this.config = {
       blueprints: injector.get(VALIDATION_BLUEPRINTS),
@@ -95,11 +132,14 @@ export class AbstractValidationDirective implements OnDestroy {
     this.elRef = injector.get(ElementRef);
   }
 
-  getStream = (streamName: Validation.StreamName): Observable<FormGroup> =>
-    merge(
-      this[streamName + '$'] ? (this[streamName + '$'] as ReplaySubject<FormGroup>).asObservable() : never(),
-      this.parent.getStream(streamName) || never(),
+  getStream(streamName: Validation.StreamName): Observable<FormGroup> {
+    return merge(
+      this[streamName + '$']
+        ? (this[streamName + '$'] as ReplaySubject<FormGroup>).asObservable()
+        : NEVER,
+      this.parent.getStream(streamName) || NEVER,
     );
+  }
 
   ngOnDestroy() {}
 }
