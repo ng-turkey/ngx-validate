@@ -1,7 +1,11 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
-    "baseUrl": "./",
+    "downlevelIteration": true,
+    "skipLibCheck": true,
+    "skipDefaultLibCheck": true,
+    "rootDir": ".",
+    "baseUrl": ".",
     "outDir": "./dist/out-tsc",
     "sourceMap": true,
     "declaration": false,
@@ -14,8 +18,8 @@
     "typeRoots": ["node_modules/@types"],
     "lib": ["es2018", "dom"],
     "paths": {
-      "core": ["dist/core"],
-      "core/*": ["dist/core/*"]
+      "@ngx-validate/core": ["packages/core/src/public_api.ts"],
+      "@ngx-validate/core/*": ["packages/core/src/lib/*"]
     }
   }
 }
