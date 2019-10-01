@@ -1,16 +1,25 @@
-import { TestBed, ComponentFixture, fakeAsync, tick } from '@angular/core/testing';
 import { DebugElement } from '@angular/core';
+import {
+  ComponentFixture,
+  fakeAsync,
+  TestBed,
+  tick,
+} from '@angular/core/testing';
+import {
+  AbstractControl,
+  FormGroup,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import { BrowserModule, By } from '@angular/platform-browser';
-import { ReactiveFormsModule, FormGroup, AbstractControl } from '@angular/forms';
-import { AppComponent } from '../app/app.component';
-import { AppRoutingModule } from '../app/app-routing.module';
 import {
   NgxValidateCoreModule,
+  Validation,
+  ValidationErrorComponent,
   ValidationStyleDirective,
   ValidationTargetDirective,
-  ValidationErrorComponent,
-  Validation,
 } from '../../packages/core/src/public_api';
+import { AppRoutingModule } from '../app/app-routing.module';
+import { AppComponent } from '../app/app.component';
 
 describe('AppComponent', () => {
   let component: AppComponent;
@@ -18,7 +27,12 @@ describe('AppComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [BrowserModule, AppRoutingModule, ReactiveFormsModule, NgxValidateCoreModule.forRoot()],
+      imports: [
+        BrowserModule,
+        AppRoutingModule,
+        ReactiveFormsModule,
+        NgxValidateCoreModule.forRoot(),
+      ],
       declarations: [AppComponent],
     });
 
@@ -30,7 +44,9 @@ describe('AppComponent', () => {
 
   it('should contain validationStyle directive', fakeAsync(() => {
     // Arrange
-    const directive = fixture.debugElement.query(By.directive(ValidationStyleDirective));
+    const directive = fixture.debugElement.query(
+      By.directive(ValidationStyleDirective),
+    );
 
     // Act
     tick();
@@ -41,7 +57,9 @@ describe('AppComponent', () => {
 
   it('should contain validationTarget directive', fakeAsync(() => {
     // Arrange
-    const directive = fixture.debugElement.query(By.directive(ValidationTargetDirective));
+    const directive = fixture.debugElement.query(
+      By.directive(ValidationTargetDirective),
+    );
 
     // Act
     tick();
@@ -63,8 +81,9 @@ describe('AppComponent', () => {
     fixture.detectChanges();
 
     // Arrange
-    const feedback: ValidationErrorComponent = debug.query(By.css('#password')).parent.query(By.css('validation-error'))
-      .componentInstance;
+    const feedback: ValidationErrorComponent = debug
+      .query(By.css('#password'))
+      .parent.query(By.css('validation-error')).componentInstance;
 
     // Assert
     expect(feedback instanceof ValidationErrorComponent).toBeTruthy();
@@ -83,14 +102,17 @@ describe('AppComponent', () => {
     fixture.detectChanges();
 
     // Arrange
-    const feedback: ValidationErrorComponent = debug.query(By.css('#password')).parent.query(By.css('validation-error'))
-      .componentInstance;
+    const feedback: ValidationErrorComponent = debug
+      .query(By.css('#password'))
+      .parent.query(By.css('validation-error')).componentInstance;
 
     const FEEDBACKS = {
       minlength: 'Min. 6 characters are required. (has 3)',
       invalidPassword: 'Password should include a small letter and a capital.',
     };
-    const errors: boolean[] = feedback.errors.map((error: Validation.Error) => FEEDBACKS[error.key] === error.message);
+    const errors: boolean[] = feedback.errors.map(
+      (error: Validation.Error) => FEEDBACKS[error.key] === error.message,
+    );
 
     // Assert
     expect(errors.filter(Boolean).length).toBe(errors.length);
@@ -98,7 +120,9 @@ describe('AppComponent', () => {
 
   it('should contain no errors when form is valid', fakeAsync(() => {
     // Arrange
-    const { consent, password, repeat, username } = getFormControls(component.form);
+    const { consent, password, repeat, username } = getFormControls(
+      component.form,
+    );
     const debug: DebugElement = fixture.debugElement;
     const button: DebugElement = debug.query(By.css('button[type="submit"]'));
     const PASSWORD = '159Aa&1q';
@@ -115,7 +139,9 @@ describe('AppComponent', () => {
     fixture.detectChanges();
 
     // Arrange
-    const feedback: DebugElement = debug.query(By.css('#password')).parent.query(By.css('validation-error'));
+    const feedback: DebugElement = debug
+      .query(By.css('#password'))
+      .parent.query(By.css('validation-error'));
 
     // Assert
     expect(feedback).toBeFalsy();
@@ -124,7 +150,8 @@ describe('AppComponent', () => {
 
 function getFormControls(form: FormGroup): { [key: string]: AbstractControl } {
   const { consent } = form.controls;
-  const { password, repeat, username } = (form.controls.credentials as FormGroup).controls;
+  const { password, repeat, username } = (form.controls
+    .credentials as FormGroup).controls;
   return {
     consent,
     password,

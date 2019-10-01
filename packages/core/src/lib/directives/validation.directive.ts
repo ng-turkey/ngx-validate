@@ -15,7 +15,7 @@ import {
   ViewContainerRef,
 } from '@angular/core';
 import { FormGroup, NgControl, ValidationErrors } from '@angular/forms';
-import { merge, never, Observable } from 'rxjs';
+import { merge, NEVER, Observable } from 'rxjs';
 import { mapTo } from 'rxjs/operators';
 import { AbstractValidationDirective } from '../abstracts';
 import { ValidationErrorComponent } from '../components';
@@ -26,10 +26,14 @@ import { ValidationStyleDirective } from './validation-style.directive';
 import { ValidationTargetDirective } from './validation-target.directive';
 
 @Directive({
-  selector: '[formControl],[formControlName]',
+  /* tslint:disable-next-line */
+  selector: "[formControl],[formControlName]"
 })
-export class ValidationDirective extends AbstractValidationDirective implements AfterViewInit {
-  private errorRef: ComponentRef<ValidationErrorComponent> | EmbeddedViewRef<any>;
+export class ValidationDirective extends AbstractValidationDirective
+  implements AfterViewInit {
+  private errorRef:
+    | ComponentRef<ValidationErrorComponent>
+    | EmbeddedViewRef<any>;
   private markElement: HTMLElement;
 
   @Input('blueprints')
@@ -57,7 +61,7 @@ export class ValidationDirective extends AbstractValidationDirective implements 
     return merge(
       this.parent.getStream('status').pipe(mapTo(null)),
       this.parent.getStream('value').pipe(mapTo(null)),
-      this.validateOnSubmit ? this.parent.getStream('submit') : never(),
+      this.validateOnSubmit ? this.parent.getStream('submit') : NEVER,
     );
   }
 
@@ -81,7 +85,9 @@ export class ValidationDirective extends AbstractValidationDirective implements 
   }
 
   private buildErrors(errors: ValidationErrors): Validation.Error[] {
-    return Object.keys(errors || {}).map(key => generateValidationError(key, errors[key], this.blueprints[key]));
+    return Object.keys(errors || {}).map(key =>
+      generateValidationError(key, errors[key], this.blueprints[key]),
+    );
   }
 
   private insertErrors(errors: Validation.Error[]): void {
@@ -90,12 +96,19 @@ export class ValidationDirective extends AbstractValidationDirective implements 
 
     this.errorRef =
       template instanceof TemplateRef
-        ? vcRef.createEmbeddedView(template, { $implicit: errors }, vcRef.length)
-        : vcRef.createComponent(this.cfRes.resolveComponentFactory(template), vcRef.length, this.injector);
+        ? vcRef.createEmbeddedView(
+            template,
+            { $implicit: errors },
+            vcRef.length,
+          )
+        : vcRef.createComponent(
+            this.cfRes.resolveComponentFactory(template),
+            vcRef.length,
+            this.injector,
+          );
 
-    if (this.errorRef instanceof ComponentRef && this.errorRef.instance) {
+    if (this.errorRef instanceof ComponentRef && this.errorRef.instance)
       (this.errorRef as ComponentRef<any>).instance.validationErrors = errors;
-    }
   }
 
   private removeErrors(): void {
@@ -130,9 +143,7 @@ export class ValidationDirective extends AbstractValidationDirective implements 
         this.insertErrors(errors);
 
         this.renderer.addClass(this.markElement, this.invalidClasses);
-      } else {
-        this.renderer.removeClass(this.markElement, this.invalidClasses);
-      }
+      } else this.renderer.removeClass(this.markElement, this.invalidClasses);
     });
   }
 
