@@ -67,7 +67,7 @@ describe('ValidationGroupDirective', () => {
       directive = spectator.directive;
     });
 
-    it('should get the instance', () => {
+    it('should be created', () => {
       expect(directive).toBeDefined();
     });
 
@@ -88,7 +88,7 @@ describe('ValidationGroupDirective', () => {
       spectator.dispatchFakeEvent('form', 'submit');
     });
 
-    it('should emit submit$ when the form submitted', () => {
+    it('should not call preventDefault on form submit', () => {
       form.get('name').setValue('test');
 
       const preventDefault = jasmine.createSpy('preventDefault');

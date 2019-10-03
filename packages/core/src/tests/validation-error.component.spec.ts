@@ -25,21 +25,27 @@ describe("ValidationErrorComponent", () => {
   });
 
   it("should display the validation errors", () => {
-    expect(spectator.queryAll("div")[0]).toHaveText(ERRORS[0].message);
-    expect(spectator.queryAll("div")[1]).toHaveText(ERRORS[1].message);
+    const [error0, error1] = spectator.queryAll("div");
+
+    expect(error0).toHaveText(ERRORS[0].message);
+    expect(error1).toHaveText(ERRORS[1].message);
   });
 
-  it("The trackByFn should return the key property", () => {
-    expect(spectator.component.trackByFn(0, ERRORS[0])).toBe(ERRORS[0].key);
+  describe("#trackByFn", () => {
+    it("should return the key property", () => {
+      expect(spectator.component.trackByFn(0, ERRORS[0])).toBe(ERRORS[0].key);
+    });
   });
 
-  it("The errors getter should return validationErrors or empty array", () => {
-    expect(spectator.component.errors).toEqual(
-      spectator.component.validationErrors
-    );
+  describe("#errors", () => {
+    it("should return validationErrors or empty array", () => {
+      expect(spectator.component.errors).toEqual(
+        spectator.component.validationErrors
+      );
 
-    spectator.component.validationErrors = null;
-    spectator.detectComponentChanges();
-    expect(spectator.component.errors).toEqual([]);
+      spectator.component.validationErrors = null;
+      spectator.detectComponentChanges();
+      expect(spectator.component.errors).toEqual([]);
+    });
   });
 });
