@@ -10,7 +10,8 @@
     "lint": "ng lint",
     "e2e": "ng e2e",
     "symlink": "symlink copy --angular --packages @ngx-validate/core",
-    "symlink-ci": "symlink copy --angular --packages @ngx-validate/core --no-watch"
+    "symlink-ci": "symlink copy --angular --packages @ngx-validate/core --no-watch",
+    "cz": "git cz"
   },
   "private": true,
   "dependencies": {
@@ -41,6 +42,7 @@
     "@types/jasminewd2": "~2.0.3",
     "@types/node": "~8.9.4",
     "codelyzer": "~5.1.0",
+    "cz-conventional-changelog": "3.0.2",
     "husky": "^3.0.7",
     "jasmine-core": "~2.99.1",
     "jasmine-spec-reporter": "~4.2.1",
@@ -74,5 +76,10 @@
       "tslint --fix",
       "git add"
     ]
+  },
+  "config": {
+    "commitizen": {
+      "path": "cz-conventional-changelog"
+    }
   }
 }
