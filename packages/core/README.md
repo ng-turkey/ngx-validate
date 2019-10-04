@@ -1,4 +1,4 @@
-# NgxValidate Core MOdule
+# NgxValidate Core Module
 
 This project is still a work-in-progress and, although it works fine, it should be used with caution.
 
