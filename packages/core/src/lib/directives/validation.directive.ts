@@ -6,6 +6,7 @@ import {
   EmbeddedViewRef,
   Injector,
   Input,
+  OnDestroy,
   Optional,
   Renderer2,
   Self,
@@ -15,12 +16,12 @@ import {
   ViewContainerRef,
 } from '@angular/core';
 import { FormGroup, NgControl, ValidationErrors } from '@angular/forms';
-import { merge, NEVER, Observable } from 'rxjs';
+import { merge, NEVER, Observable, Subscription } from 'rxjs';
 import { mapTo } from 'rxjs/operators';
 import { AbstractValidationDirective } from '../abstracts';
 import { ValidationErrorComponent } from '../components';
 import { Validation } from '../models';
-import { generateValidationError, takeUntilDestroy } from '../utils';
+import { generateValidationError } from '../utils';
 import { ValidationGroupDirective } from './validation-group.directive';
 import { ValidationStyleDirective } from './validation-style.directive';
 import { ValidationTargetDirective } from './validation-target.directive';
@@ -30,7 +31,7 @@ import { ValidationTargetDirective } from './validation-target.directive';
   selector: "[formControl],[formControlName]"
 })
 export class ValidationDirective extends AbstractValidationDirective
-  implements AfterViewInit {
+  implements AfterViewInit, OnDestroy {
   private errorRef:
     | ComponentRef<ValidationErrorComponent>
     | EmbeddedViewRef<any>;
@@ -64,6 +65,8 @@ export class ValidationDirective extends AbstractValidationDirective
       this.validateOnSubmit ? this.parent.getStream('submit') : NEVER,
     );
   }
+
+  private subscriptions = new Subscription();
 
   constructor(
     public injector: Injector,
@@ -128,27 +131,33 @@ export class ValidationDirective extends AbstractValidationDirective
   }
 
   private subscribeToValidation(): void {
-    this.validation$.pipe(takeUntilDestroy(this)).subscribe(form => {
-      if (this.skipValidation) return;
+    this.subscriptions.add(
+      this.validation$.subscribe(form => {
+        if (this.skipValidation) return;
 
-      this.removeErrors();
+        this.removeErrors();
 
-      const errors = this.mapErrorsFn(
-        this.buildErrors(this.control.errors),
-        this.buildErrors(this.parentRef.group.errors),
-        this.control,
-      );
+        const errors = this.mapErrorsFn(
+          this.buildErrors(this.control.errors),
+          this.buildErrors(this.parentRef.group.errors),
+          this.control,
+        );
 
-      if (errors.length && (this.control.dirty || form)) {
-        this.insertErrors(errors);
+        if (errors.length && (this.control.dirty || form)) {
+          this.insertErrors(errors);
 
-        this.renderer.addClass(this.markElement, this.invalidClasses);
-      } else this.renderer.removeClass(this.markElement, this.invalidClasses);
-    });
+          this.renderer.addClass(this.markElement, this.invalidClasses);
+        } else this.renderer.removeClass(this.markElement, this.invalidClasses);
+      }),
+    );
   }
 
-  ngAfterViewInit(): void {
+  ngAfterViewInit() {
     this.setMarkElement();
     this.subscribeToValidation();
+  }
+
+  ngOnDestroy() {
+    this.subscriptions.unsubscribe();
   }
 }

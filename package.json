@@ -1,14 +1,14 @@
 {
   "name": "ngx-validate",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
     "build:core": "ng build core",
     "build:demo": "ng build --configuration=production",
     "test": "ng test",
+    "test:core": "ng test core",
     "lint": "ng lint",
-    "e2e": "ng e2e",
     "symlink": "symlink copy --angular --packages @ngx-validate/core",
     "symlink-ci": "symlink copy --angular --packages @ngx-validate/core --no-watch",
     "cz": "git cz"
