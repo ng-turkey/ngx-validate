@@ -4,48 +4,50 @@ import {
   Directive,
   Injector,
   Input,
+  OnDestroy,
   Optional,
   Self,
   SkipSelf,
   TemplateRef,
-  Type,
-} from '@angular/core';
-import { FormGroup, FormGroupDirective, FormGroupName } from '@angular/forms';
-import { ReplaySubject } from 'rxjs';
-import { AbstractValidationDirective } from '../abstracts';
-import { Validation } from '../models';
-import { takeUntilDestroy } from '../utils';
+  Type
+} from "@angular/core";
+import { FormGroup, FormGroupDirective, FormGroupName } from "@angular/forms";
+import { ReplaySubject, Subscription } from "rxjs";
+import { AbstractValidationDirective } from "../abstracts";
+import { Validation } from "../models";
 
 @Directive({
   /* tslint:disable-next-line */
   selector: "[formGroup],[formGroupName]"
 })
 export class ValidationGroupDirective extends AbstractValidationDirective
-  implements AfterViewInit {
+  implements AfterViewInit, OnDestroy {
   status$ = new ReplaySubject<FormGroup>(1);
   submit$ = new ReplaySubject<FormGroup>(1);
   value$ = new ReplaySubject<FormGroup>(1);
 
-  @Input('blueprints')
+  @Input("blueprints")
   _blueprints: Validation.Blueprints;
 
-  @Input('errorTemplate')
+  @Input("errorTemplate")
   _errorTemplate: TemplateRef<any> | Type<any>;
 
-  @Input('invalidClasses')
+  @Input("invalidClasses")
   _invalidClasses: string;
 
-  @Input('mapErrorsFn')
+  @Input("mapErrorsFn")
   _mapErrorsFn: Validation.MapErrorsFn;
 
-  @Input('skipValidation')
+  @Input("skipValidation")
   _skipValidation: boolean;
 
-  @Input('targetSelector')
+  @Input("targetSelector")
   _targetSelector: string;
 
-  @Input('validateOnSubmit')
+  @Input("validateOnSubmit")
   _validateOnSubmit: boolean;
+
+  private subs = new Subscription();
 
   constructor(
     public injector: Injector,
@@ -58,28 +60,44 @@ export class ValidationGroupDirective extends AbstractValidationDirective
     public groupRef: FormGroupDirective,
     @Optional()
     @SkipSelf()
-    public parentRef: ValidationGroupDirective,
+    public parentRef: ValidationGroupDirective
   ) {
     super(injector);
   }
 
-  ngAfterViewInit() {
-    if (!this.parentRef)
-      (this.elRef.nativeElement as HTMLFormElement).onsubmit = event => {
-        if (this.group.invalid) event.preventDefault();
+  private subscribeToFormSubmit() {
+    (this.elRef.nativeElement as HTMLFormElement).onsubmit = event => {
+      if (this.group.invalid) event.preventDefault();
+      this.submit$.next(this.group);
+      this.cdRef.markForCheck();
+    };
+  }
 
-        this.submit$.next(this.group);
+  private subscribeToStatusChanges() {
+    this.subs.add(
+      this.group.statusChanges.subscribe(() => {
+        this.status$.next(this.group);
         this.cdRef.markForCheck();
-      };
+      })
+    );
+  }
 
-    this.group.statusChanges.pipe(takeUntilDestroy(this)).subscribe(() => {
-      this.status$.next(this.group);
-      this.cdRef.markForCheck();
-    });
+  private subscribeToValueChanges() {
+    this.subs.add(
+      this.group.valueChanges.subscribe(() => {
+        this.value$.next(this.group);
+        this.cdRef.markForCheck();
+      })
+    );
+  }
 
-    this.group.valueChanges.pipe(takeUntilDestroy(this)).subscribe(() => {
-      this.value$.next(this.group);
-      this.cdRef.markForCheck();
-    });
+  ngAfterViewInit() {
+    if (!this.parentRef) this.subscribeToFormSubmit();
+    this.subscribeToStatusChanges();
+    this.subscribeToValueChanges();
+  }
+
+  ngOnDestroy() {
+    this.subs.unsubscribe();
   }
 }

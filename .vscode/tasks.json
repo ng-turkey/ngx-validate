@@ -22,12 +22,6 @@
       "problemMatcher": []
     },
     {
-      "label": "yarn: e2e",
-      "type": "shell",
-      "command": "yarn e2e",
-      "problemMatcher": []
-    },
-    {
       "label": "yarn: build: core",
       "type": "shell",
       "command": "yarn build:core",
