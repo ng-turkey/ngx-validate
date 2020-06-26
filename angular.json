@@ -150,5 +150,8 @@
       }
     }
   },
-  "defaultProject": "ngx-validate"
+  "defaultProject": "ngx-validate",
+  "cli": {
+    "analytics": false
+  }
 }
