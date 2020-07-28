@@ -1,7 +1,7 @@
 # NgxValidate
 
 <p align="center">
-  <img src="https://travis-ci.org/ng-turkey/ngx-validate.svg?branch=master"/>
+  <img src="https://github.com/ng-turkey/ngx-validate/workflows/Lint%20&%20Test%20&%20Build/badge.svg"/>
   <a href="https://codeclimate.com/github/ng-turkey/ngx-validate/maintainability"><img src="https://api.codeclimate.com/v1/badges/1e3e683f0e67e72d7066/maintainability" /></a>
   <a href="https://codeclimate.com/github/ng-turkey/ngx-validate/test_coverage"><img src="https://api.codeclimate.com/v1/badges/1e3e683f0e67e72d7066/test_coverage" /></a>
   <img src="https://img.shields.io/github/license/ng-turkey/ngx-validate.svg" />
@@ -15,15 +15,19 @@ This project is still a work-in-progress and, although it works fine, it should 
 [Stackblitz Example](https://stackblitz.com/edit/ngx-validate)
 
 ## Installation
+
 ```bash
 yarn add @ngx-validate/core
 ```
+
 or
+
 ```bash
 npm install @ngx-validate/core
 ```
 
 ## Usage
+
 Import core module to your main module as follows:
 
 ```typescript
@@ -42,8 +46,8 @@ import { NgxValidateCoreModule } from '@ngx-validate/core';
   bootstrap: [AppComponent],
 })
 export class AppModule {}
+```
 
-``` 
 ## Roadmap
 
 - [x] Dynamic display of validation errors

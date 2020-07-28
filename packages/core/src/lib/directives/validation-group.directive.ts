@@ -9,16 +9,16 @@ import {
   Self,
   SkipSelf,
   TemplateRef,
-  Type
-} from "@angular/core";
-import { FormGroup, FormGroupDirective, FormGroupName } from "@angular/forms";
-import { ReplaySubject, Subscription } from "rxjs";
-import { AbstractValidationDirective } from "../abstracts";
-import { Validation } from "../models";
+  Type,
+} from '@angular/core';
+import { FormGroup, FormGroupDirective, FormGroupName } from '@angular/forms';
+import { ReplaySubject, Subscription } from 'rxjs';
+import { AbstractValidationDirective } from '../abstracts';
+import { Validation } from '../models';
 
 @Directive({
   /* tslint:disable-next-line */
-  selector: "[formGroup],[formGroupName]"
+  selector: '[formGroup],[formGroupName]',
 })
 export class ValidationGroupDirective extends AbstractValidationDirective
   implements AfterViewInit, OnDestroy {
@@ -26,25 +26,25 @@ export class ValidationGroupDirective extends AbstractValidationDirective
   submit$ = new ReplaySubject<FormGroup>(1);
   value$ = new ReplaySubject<FormGroup>(1);
 
-  @Input("blueprints")
+  @Input('blueprints')
   _blueprints: Validation.Blueprints;
 
-  @Input("errorTemplate")
+  @Input('errorTemplate')
   _errorTemplate: TemplateRef<any> | Type<any>;
 
-  @Input("invalidClasses")
+  @Input('invalidClasses')
   _invalidClasses: string;
 
-  @Input("mapErrorsFn")
+  @Input('mapErrorsFn')
   _mapErrorsFn: Validation.MapErrorsFn;
 
-  @Input("skipValidation")
+  @Input('skipValidation')
   _skipValidation: boolean;
 
-  @Input("targetSelector")
+  @Input('targetSelector')
   _targetSelector: string;
 
-  @Input("validateOnSubmit")
+  @Input('validateOnSubmit')
   _validateOnSubmit: boolean;
 
   private subs = new Subscription();
@@ -60,7 +60,7 @@ export class ValidationGroupDirective extends AbstractValidationDirective
     public groupRef: FormGroupDirective,
     @Optional()
     @SkipSelf()
-    public parentRef: ValidationGroupDirective
+    public parentRef: ValidationGroupDirective,
   ) {
     super(injector);
   }
@@ -78,7 +78,7 @@ export class ValidationGroupDirective extends AbstractValidationDirective
       this.group.statusChanges.subscribe(() => {
         this.status$.next(this.group);
         this.cdRef.markForCheck();
-      })
+      }),
     );
   }
 
@@ -87,7 +87,7 @@ export class ValidationGroupDirective extends AbstractValidationDirective
       this.group.valueChanges.subscribe(() => {
         this.value$.next(this.group);
         this.cdRef.markForCheck();
-      })
+      }),
     );
   }
 
