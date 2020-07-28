@@ -17,7 +17,7 @@ import {
 } from '@angular/core';
 import { FormGroup, NgControl, ValidationErrors } from '@angular/forms';
 import { merge, NEVER, Observable, Subscription } from 'rxjs';
-import { mapTo } from 'rxjs/operators';
+import { distinctUntilChanged, filter, map, mapTo } from 'rxjs/operators';
 import { AbstractValidationDirective } from '../abstracts';
 import { ValidationErrorComponent } from '../components';
 import { Validation } from '../models';
@@ -28,13 +28,11 @@ import { ValidationTargetDirective } from './validation-target.directive';
 
 @Directive({
   /* tslint:disable-next-line */
-  selector: "[formControl],[formControlName]"
+  selector: '[formControl],[formControlName]',
 })
 export class ValidationDirective extends AbstractValidationDirective
   implements AfterViewInit, OnDestroy {
-  private errorRef:
-    | ComponentRef<ValidationErrorComponent>
-    | EmbeddedViewRef<any>;
+  private errorRef: ComponentRef<ValidationErrorComponent> | EmbeddedViewRef<any>;
   private markElement: HTMLElement;
 
   @Input('blueprints')
@@ -99,11 +97,7 @@ export class ValidationDirective extends AbstractValidationDirective
 
     this.errorRef =
       template instanceof TemplateRef
-        ? vcRef.createEmbeddedView(
-            template,
-            { $implicit: errors },
-            vcRef.length,
-          )
+        ? vcRef.createEmbeddedView(template, { $implicit: errors }, vcRef.length)
         : vcRef.createComponent(
             this.cfRes.resolveComponentFactory(template),
             vcRef.length,
@@ -132,23 +126,28 @@ export class ValidationDirective extends AbstractValidationDirective
 
   private subscribeToValidation(): void {
     this.subscriptions.add(
-      this.validation$.subscribe(form => {
-        if (this.skipValidation) return;
+      this.validation$
+        .pipe(
+          filter(() => !this.skipValidation),
+          map(form => ({
+            errors: this.mapErrorsFn(
+              this.buildErrors(this.control.errors),
+              this.buildErrors(this.parentRef.group.errors),
+              this.control,
+            ),
+            form,
+          })),
+          distinctUntilChanged((a, b) => JSON.stringify(a.errors) === JSON.stringify(b.errors)),
+        )
+        .subscribe(({ errors, form }) => {
+          this.removeErrors();
 
-        this.removeErrors();
+          if (errors.length && (this.control.dirty || form)) {
+            this.insertErrors(errors);
 
-        const errors = this.mapErrorsFn(
-          this.buildErrors(this.control.errors),
-          this.buildErrors(this.parentRef.group.errors),
-          this.control,
-        );
-
-        if (errors.length && (this.control.dirty || form)) {
-          this.insertErrors(errors);
-
-          this.renderer.addClass(this.markElement, this.invalidClasses);
-        } else this.renderer.removeClass(this.markElement, this.invalidClasses);
-      }),
+            this.renderer.addClass(this.markElement, this.invalidClasses);
+          } else this.renderer.removeClass(this.markElement, this.invalidClasses);
+        }),
     );
   }
 
