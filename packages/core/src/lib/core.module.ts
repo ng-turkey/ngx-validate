@@ -31,7 +31,7 @@ import { defaultMapErrorsFn } from './utils/mappers';
   entryComponents: [ValidationErrorComponent],
 })
 export class NgxValidateCoreModule {
-  static forRoot(config = {} as Validation.Config): ModuleWithProviders {
+  static forRoot(config = {} as Validation.Config): ModuleWithProviders<NgxValidateCoreModule> {
     return {
       ngModule: NgxValidateCoreModule,
       providers: [
