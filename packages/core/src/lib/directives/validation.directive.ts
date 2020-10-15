@@ -17,7 +17,7 @@ import {
 } from '@angular/core';
 import { FormGroup, NgControl, ValidationErrors } from '@angular/forms';
 import { merge, NEVER, Observable, Subscription } from 'rxjs';
-import { distinctUntilChanged, filter, map, mapTo } from 'rxjs/operators';
+import { filter, map, mapTo } from 'rxjs/operators';
 import { AbstractValidationDirective } from '../abstracts';
 import { ValidationErrorComponent } from '../components';
 import { Validation } from '../models';
@@ -125,6 +125,8 @@ export class ValidationDirective extends AbstractValidationDirective
   }
 
   private subscribeToValidation(): void {
+    let cached: string;
+
     this.subscriptions.add(
       this.validation$
         .pipe(
@@ -137,16 +139,20 @@ export class ValidationDirective extends AbstractValidationDirective
             ),
             form,
           })),
-          distinctUntilChanged((a, b) => JSON.stringify(a.errors) === JSON.stringify(b.errors)),
         )
         .subscribe(({ errors, form }) => {
+          if (cached === JSON.stringify(errors)) return;
+
           this.removeErrors();
 
           if (errors.length && (this.control.dirty || form)) {
             this.insertErrors(errors);
-
             this.renderer.addClass(this.markElement, this.invalidClasses);
-          } else this.renderer.removeClass(this.markElement, this.invalidClasses);
+            cached = JSON.stringify(errors);
+          } else {
+            this.renderer.removeClass(this.markElement, this.invalidClasses);
+            cached = '';
+          }
         }),
     );
   }
