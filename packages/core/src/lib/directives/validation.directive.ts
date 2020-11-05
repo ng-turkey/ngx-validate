@@ -5,18 +5,16 @@ import {
   Directive,
   EmbeddedViewRef,
   Injector,
-  Input,
   OnDestroy,
   Optional,
   Renderer2,
   Self,
   SkipSelf,
   TemplateRef,
-  Type,
   ViewContainerRef,
 } from '@angular/core';
 import { FormGroup, NgControl, ValidationErrors } from '@angular/forms';
-import { merge, NEVER, Observable, Subscription } from 'rxjs';
+import { merge, Observable, Subscription } from 'rxjs';
 import { filter, map, mapTo } from 'rxjs/operators';
 import { AbstractValidationDirective } from '../abstracts';
 import { ValidationErrorComponent } from '../components';
@@ -34,27 +32,7 @@ export class ValidationDirective extends AbstractValidationDirective
   implements AfterViewInit, OnDestroy {
   private errorRef: ComponentRef<ValidationErrorComponent> | EmbeddedViewRef<any>;
   private markElement: HTMLElement;
-
-  @Input('blueprints')
-  _blueprints: Validation.Blueprints;
-
-  @Input('errorTemplate')
-  _errorTemplate: TemplateRef<any> | Type<any>;
-
-  @Input('invalidClasses')
-  _invalidClasses: string;
-
-  @Input('mapErrorsFn')
-  _mapErrorsFn: Validation.MapErrorsFn;
-
-  @Input('skipValidation')
-  _skipValidation: boolean;
-
-  @Input('targetSelector')
-  _targetSelector: string;
-
-  @Input('validateOnSubmit')
-  _validateOnSubmit: boolean;
+  private isSubmitted = false;
 
   get validation$(): Observable<FormGroup> {
     return merge(
