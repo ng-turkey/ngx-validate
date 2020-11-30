@@ -1,5 +1,6 @@
 import {
   AfterViewInit,
+  ChangeDetectorRef,
   ComponentFactoryResolver,
   ComponentRef,
   Directive,
@@ -46,6 +47,7 @@ export class ValidationDirective extends AbstractValidationDirective
 
   constructor(
     public injector: Injector,
+    private cdRef: ChangeDetectorRef,
     private cfRes: ComponentFactoryResolver,
     @Self()
     private control: NgControl,
@@ -148,6 +150,8 @@ export class ValidationDirective extends AbstractValidationDirective
             this.removeErrorClasses();
             cached = '';
           }
+
+          this.cdRef.markForCheck();
         }),
     );
   }
