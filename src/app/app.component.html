@@ -5,49 +5,12 @@
     <div class="card-body">
       <form [formGroup]="form">
         <div formGroupName="credentials" [mapErrorsFn]="mapErrorsFn">
-          <div class="form-group">
-            <label for="username">Username</label>
-            <input
-              formControlName="username"
-              id="username"
-              type="text"
-              placeholder="Enter a username"
-              class="form-control"
-            />
-          </div>
-          <div class="form-group">
-            <label for="password">Password</label>
-            <input
-              formControlName="password"
-              id="password"
-              type="password"
-              placeholder="Enter a password"
-              class="form-control"
-            />
-          </div>
-          <div class="form-group">
-            <label for="repeat">Password Again</label>
-            <input
-              formControlName="repeat"
-              id="repeat"
-              type="password"
-              placeholder="Repeat password"
-              class="form-control"
-            />
-          </div>
+          <app-username></app-username>
+          <app-password></app-password>
+          <app-password-repeat></app-password-repeat>
         </div>
 
-        <div class="form-group" validationStyle>
-          <div class="form-check" validationTarget>
-            <input
-              formControlName="consent"
-              id="consent"
-              type="checkbox"
-              class="form-check-input"
-            />
-            <label for="consent" class="form-check-label">Check me out</label>
-          </div>
-        </div>
+        <app-check-me-out></app-check-me-out>
 
         <button type="submit" class="btn btn-primary">Submit</button>
       </form>
