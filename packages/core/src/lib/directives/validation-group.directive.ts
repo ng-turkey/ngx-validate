@@ -3,18 +3,14 @@ import {
   ChangeDetectorRef,
   Directive,
   Injector,
-  Input,
   OnDestroy,
   Optional,
   Self,
   SkipSelf,
-  TemplateRef,
-  Type,
 } from '@angular/core';
 import { FormGroup, FormGroupDirective, FormGroupName } from '@angular/forms';
 import { ReplaySubject, Subscription } from 'rxjs';
 import { AbstractValidationDirective } from '../abstracts';
-import { Validation } from '../models';
 
 @Directive({
   /* tslint:disable-next-line */
@@ -26,27 +22,6 @@ export class ValidationGroupDirective extends AbstractValidationDirective
   status$ = new ReplaySubject<FormGroup>(1);
   submit$ = new ReplaySubject<FormGroup>(1);
   value$ = new ReplaySubject<FormGroup>(1);
-
-  @Input('blueprints')
-  _blueprints: Validation.Blueprints;
-
-  @Input('errorTemplate')
-  _errorTemplate: TemplateRef<any> | Type<any>;
-
-  @Input('invalidClasses')
-  _invalidClasses: string;
-
-  @Input('mapErrorsFn')
-  _mapErrorsFn: Validation.MapErrorsFn;
-
-  @Input('skipValidation')
-  _skipValidation: boolean;
-
-  @Input('targetSelector')
-  _targetSelector: string;
-
-  @Input('validateOnSubmit')
-  _validateOnSubmit: boolean;
 
   private subs = new Subscription();
 

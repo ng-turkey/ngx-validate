@@ -6,19 +6,17 @@ import {
   Directive,
   EmbeddedViewRef,
   Injector,
-  Input,
   OnDestroy,
   Optional,
   Renderer2,
   Self,
   SkipSelf,
   TemplateRef,
-  Type,
   ViewContainerRef,
 } from '@angular/core';
 import { FormGroup, NgControl, ValidationErrors } from '@angular/forms';
-import { merge, NEVER, Observable, Subscription } from 'rxjs';
-import { filter, map, mapTo } from 'rxjs/operators';
+import { merge, Observable, Subscription } from 'rxjs';
+import { filter, map, mapTo, tap } from 'rxjs/operators';
 import { AbstractValidationDirective } from '../abstracts';
 import { ValidationErrorComponent } from '../components';
 import { Validation } from '../models';
@@ -37,33 +35,13 @@ export class ValidationDirective extends AbstractValidationDirective
   implements AfterViewInit, OnDestroy {
   private errorRef: ComponentRef<ValidationErrorComponent> | EmbeddedViewRef<any>;
   private markElement: HTMLElement;
-
-  @Input('blueprints')
-  _blueprints: Validation.Blueprints;
-
-  @Input('errorTemplate')
-  _errorTemplate: TemplateRef<any> | Type<any>;
-
-  @Input('invalidClasses')
-  _invalidClasses: string;
-
-  @Input('mapErrorsFn')
-  _mapErrorsFn: Validation.MapErrorsFn;
-
-  @Input('skipValidation')
-  _skipValidation: boolean;
-
-  @Input('targetSelector')
-  _targetSelector: string;
-
-  @Input('validateOnSubmit')
-  _validateOnSubmit: boolean;
+  private isSubmitted = false;
 
   get validation$(): Observable<FormGroup> {
     return merge(
       this.parent.getStream('status').pipe(mapTo(null)),
       this.parent.getStream('value').pipe(mapTo(null)),
-      this.validateOnSubmit ? this.parent.getStream('submit') : NEVER,
+      this.parent.getStream('submit'),
     );
   }
 
@@ -90,7 +68,11 @@ export class ValidationDirective extends AbstractValidationDirective
     );
   }
 
-  private insertErrors(errors: Validation.Error[]): void {
+  private insertErrorClasses() {
+    this.renderer.addClass(this.markElement, this.invalidClasses);
+  }
+
+  private insertErrors(this: ValidationDirective, errors: Validation.Error[]): void {
     const template = this.errorTemplate;
     const targetRef = this.containerRef ? this.containerRef.targetRef : this.targetRef;
     const vcRef = targetRef ? targetRef.vcRef : this.vcRef;
@@ -106,6 +88,10 @@ export class ValidationDirective extends AbstractValidationDirective
 
     if (this.errorRef instanceof ComponentRef && this.errorRef.instance)
       (this.errorRef as ComponentRef<any>).instance.validationErrors = errors;
+  }
+
+  private removeErrorClasses() {
+    this.renderer.removeClass(this.markElement, this.invalidClasses);
   }
 
   private removeErrors(): void {
@@ -124,6 +110,10 @@ export class ValidationDirective extends AbstractValidationDirective
         : null) || this.elRef.nativeElement;
   }
 
+  private shouldValidate(errors: Validation.Error[]) {
+    return errors.length && this.control.dirty && (!this.validateOnSubmit || this.isSubmitted);
+  }
+
   private subscribeToValidation(): void {
     let cached: string;
 
@@ -131,26 +121,31 @@ export class ValidationDirective extends AbstractValidationDirective
       this.validation$
         .pipe(
           filter(() => !this.skipValidation),
-          map(form => ({
-            errors: this.mapErrorsFn(
+          tap(form => {
+            if (form) {
+              this.control.control.markAsDirty();
+              this.isSubmitted = true;
+            }
+          }),
+          map(() =>
+            this.mapErrorsFn(
               this.buildErrors(this.control.errors),
               this.buildErrors(this.parentRef.group.errors),
               this.control,
             ),
-            form,
-          })),
+          ),
         )
-        .subscribe(({ errors, form }) => {
+        .subscribe(errors => {
           if (cached === JSON.stringify(errors)) return;
 
           this.removeErrors();
 
-          if (errors.length && (this.control.dirty || form)) {
+          if (this.shouldValidate(errors)) {
             this.insertErrors(errors);
-            this.renderer.addClass(this.markElement, this.invalidClasses);
+            if (!cached) this.insertErrorClasses();
             cached = JSON.stringify(errors);
           } else {
-            this.renderer.removeClass(this.markElement, this.invalidClasses);
+            this.removeErrorClasses();
             cached = '';
           }
 
