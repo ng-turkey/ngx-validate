@@ -4,6 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AbstractValidationDirective } from './abstracts/abstract-validation.directive';
 import { ValidationErrorComponent } from './components/validation-error.component';
 import { BLUEPRINTS } from './constants/blueprints';
+import { ValidationContainerDirective } from './directives/validation-container.directive';
 import { ValidationGroupDirective } from './directives/validation-group.directive';
 import { ValidationStyleDirective } from './directives/validation-style.directive';
 import { ValidationTargetDirective } from './directives/validation-target.directive';
@@ -19,10 +20,17 @@ import { defaultMapErrorsFn } from './utils/mappers';
 
 @NgModule({
   imports: [CommonModule, FormsModule, ReactiveFormsModule],
-  exports: [ValidationGroupDirective, ValidationStyleDirective, ValidationTargetDirective, ValidationDirective],
+  exports: [
+    ValidationContainerDirective,
+    ValidationGroupDirective,
+    ValidationStyleDirective,
+    ValidationTargetDirective,
+    ValidationDirective,
+  ],
   declarations: [
     ValidationErrorComponent,
     AbstractValidationDirective,
+    ValidationContainerDirective,
     ValidationGroupDirective,
     ValidationStyleDirective,
     ValidationTargetDirective,
