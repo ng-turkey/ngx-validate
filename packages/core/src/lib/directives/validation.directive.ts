@@ -50,21 +50,13 @@ export class ValidationDirective extends AbstractValidationDirective
     public injector: Injector,
     private cdRef: ChangeDetectorRef,
     private cfRes: ComponentFactoryResolver,
-    @Self()
-    private control: NgControl,
+    @Self() private control: NgControl,
     private renderer: Renderer2,
     private vcRef: ViewContainerRef,
-    @SkipSelf()
-    public parentRef: ValidationGroupDirective,
-    @Optional()
-    @SkipSelf()
-    private markRef: ValidationStyleDirective,
-    @Optional()
-    @SkipSelf()
-    private targetRef: ValidationTargetDirective,
-    @Optional()
-    @SkipSelf()
-    private validationContainer: ValidationContainerDirective,
+    @SkipSelf() public parentRef: ValidationGroupDirective,
+    @Optional() @SkipSelf() private markRef: ValidationStyleDirective,
+    @Optional() @SkipSelf() public targetRef: ValidationTargetDirective,
+    @Optional() @SkipSelf() private containerRef: ValidationContainerDirective,
   ) {
     super(injector);
   }
@@ -79,13 +71,11 @@ export class ValidationDirective extends AbstractValidationDirective
     this.renderer.addClass(this.markElement, this.invalidClasses);
   }
 
-  private insertErrors(errors: Validation.Error[]): void {
+  private insertErrors(this: ValidationDirective, errors: Validation.Error[]): void {
     const template = this.errorTemplate;
-    const vcRef = this.validationContainer
-      ? this.validationContainer.target.vcRef
-      : this.targetRef
-      ? this.targetRef.vcRef
-      : this.vcRef;
+    const targetRef = this.containerRef ? this.containerRef.targetRef : this.targetRef;
+    const vcRef = targetRef ? targetRef.vcRef : this.vcRef;
+
     this.errorRef =
       template instanceof TemplateRef
         ? vcRef.createEmbeddedView(template, { $implicit: errors }, vcRef.length)
@@ -94,6 +84,7 @@ export class ValidationDirective extends AbstractValidationDirective
             vcRef.length,
             this.injector,
           );
+
     if (this.errorRef instanceof ComponentRef && this.errorRef.instance)
       (this.errorRef as ComponentRef<any>).instance.validationErrors = errors;
   }
