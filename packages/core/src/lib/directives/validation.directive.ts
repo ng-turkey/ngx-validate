@@ -29,6 +29,7 @@ import { ValidationTargetDirective } from './validation-target.directive';
 @Directive({
   /* tslint:disable-next-line */
   selector: '[formControl],[formControlName]',
+  exportAs: 'validationDirective',
 })
 export class ValidationDirective extends AbstractValidationDirective
   implements AfterViewInit, OnDestroy {
@@ -56,7 +57,7 @@ export class ValidationDirective extends AbstractValidationDirective
     @SkipSelf() public parentRef: ValidationGroupDirective,
     @Optional() @SkipSelf() private markRef: ValidationStyleDirective,
     @Optional() @SkipSelf() public targetRef: ValidationTargetDirective,
-    @Optional() @SkipSelf() private containerRef: ValidationContainerDirective,
+    @Optional() private containerRef: ValidationContainerDirective,
   ) {
     super(injector);
   }

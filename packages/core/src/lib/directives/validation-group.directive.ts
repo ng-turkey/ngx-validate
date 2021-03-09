@@ -15,6 +15,7 @@ import { AbstractValidationDirective } from '../abstracts';
 @Directive({
   /* tslint:disable-next-line */
   selector: '[formGroup],[formGroupName]',
+  exportAs: 'validationGroup',
 })
 export class ValidationGroupDirective extends AbstractValidationDirective
   implements AfterViewInit, OnDestroy {

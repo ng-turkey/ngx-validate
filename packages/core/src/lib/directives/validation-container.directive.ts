@@ -3,6 +3,7 @@ import { ValidationTargetDirective } from './validation-target.directive';
 
 @Directive({
   selector: '[validationContainer]',
+  exportAs: 'validationContainer',
 })
 export class ValidationContainerDirective {
   @ContentChild(ValidationTargetDirective, { static: false })
