@@ -23,6 +23,7 @@ import { AbstractValidationDirective } from '../abstracts';
 import { ValidationErrorComponent } from '../components';
 import { Validation } from '../models';
 import { generateValidationError } from '../utils';
+import { ValidationContainerDirective } from './validation-container.directive';
 import { ValidationGroupDirective } from './validation-group.directive';
 import { ValidationStyleDirective } from './validation-style.directive';
 import { ValidationTargetDirective } from './validation-target.directive';
@@ -30,6 +31,7 @@ import { ValidationTargetDirective } from './validation-target.directive';
 @Directive({
   /* tslint:disable-next-line */
   selector: '[formControl],[formControlName]',
+  exportAs: 'validationDirective',
 })
 export class ValidationDirective extends AbstractValidationDirective
   implements AfterViewInit, OnDestroy {
@@ -71,18 +73,13 @@ export class ValidationDirective extends AbstractValidationDirective
     public injector: Injector,
     private cdRef: ChangeDetectorRef,
     private cfRes: ComponentFactoryResolver,
-    @Self()
-    private control: NgControl,
+    @Self() private control: NgControl,
     private renderer: Renderer2,
     private vcRef: ViewContainerRef,
-    @SkipSelf()
-    public parentRef: ValidationGroupDirective,
-    @Optional()
-    @SkipSelf()
-    private markRef: ValidationStyleDirective,
-    @Optional()
-    @SkipSelf()
-    private targetRef: ValidationTargetDirective,
+    @SkipSelf() public parentRef: ValidationGroupDirective,
+    @Optional() @SkipSelf() private markRef: ValidationStyleDirective,
+    @Optional() @SkipSelf() public targetRef: ValidationTargetDirective,
+    @Optional() private containerRef: ValidationContainerDirective,
   ) {
     super(injector);
   }
@@ -95,7 +92,8 @@ export class ValidationDirective extends AbstractValidationDirective
 
   private insertErrors(errors: Validation.Error[]): void {
     const template = this.errorTemplate;
-    const vcRef = this.targetRef ? this.targetRef.vcRef : this.vcRef;
+    const targetRef = this.containerRef ? this.containerRef.targetRef : this.targetRef;
+    const vcRef = targetRef ? targetRef.vcRef : this.vcRef;
 
     this.errorRef =
       template instanceof TemplateRef
