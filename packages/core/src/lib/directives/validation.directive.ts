@@ -21,6 +21,7 @@ import { AbstractValidationDirective } from '../abstracts';
 import { ValidationErrorComponent } from '../components';
 import { Validation } from '../models';
 import { generateValidationError } from '../utils';
+import { ValidationContainerDirective } from './validation-container.directive';
 import { ValidationGroupDirective } from './validation-group.directive';
 import { ValidationStyleDirective } from './validation-style.directive';
 import { ValidationTargetDirective } from './validation-target.directive';
@@ -61,6 +62,9 @@ export class ValidationDirective extends AbstractValidationDirective
     @Optional()
     @SkipSelf()
     private targetRef: ValidationTargetDirective,
+    @Optional()
+    @SkipSelf()
+    private validationContainer: ValidationContainerDirective,
   ) {
     super(injector);
   }
@@ -77,8 +81,11 @@ export class ValidationDirective extends AbstractValidationDirective
 
   private insertErrors(errors: Validation.Error[]): void {
     const template = this.errorTemplate;
-    const vcRef = this.targetRef ? this.targetRef.vcRef : this.vcRef;
-
+    const vcRef = this.validationContainer
+      ? this.validationContainer.target.vcRef
+      : this.targetRef
+      ? this.targetRef.vcRef
+      : this.vcRef;
     this.errorRef =
       template instanceof TemplateRef
         ? vcRef.createEmbeddedView(template, { $implicit: errors }, vcRef.length)
@@ -87,7 +94,6 @@ export class ValidationDirective extends AbstractValidationDirective
             vcRef.length,
             this.injector,
           );
-
     if (this.errorRef instanceof ComponentRef && this.errorRef.instance)
       (this.errorRef as ComponentRef<any>).instance.validationErrors = errors;
   }
