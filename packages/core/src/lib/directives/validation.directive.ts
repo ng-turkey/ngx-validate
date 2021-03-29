@@ -130,7 +130,7 @@ export class ValidationDirective extends AbstractValidationDirective
           map(() =>
             this.mapErrorsFn(
               this.buildErrors(this.control.errors),
-              this.buildErrors(this.parentRef.group.errors),
+              this.buildErrors((this.parentRef.group || ({} as FormGroup)).errors),
               this.control,
             ),
           ),
