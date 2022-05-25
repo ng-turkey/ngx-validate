@@ -3,7 +3,7 @@
   <div class="card m-5">
     <div class="card-header"><h1 class="h2">NgxValidate Sample Implementation</h1></div>
     <div class="card-body">
-      <form [formGroup]="form">
+      <form [formGroup]="form" #myForm="ngForm" (ngSubmit)="submit(myForm)">
         <div formGroupName="credentials" [mapErrorsFn]="mapErrorsFn">
           <app-username></app-username>
           <app-password></app-password>

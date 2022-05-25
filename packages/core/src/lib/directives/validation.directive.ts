@@ -14,7 +14,7 @@ import {
   TemplateRef,
   ViewContainerRef,
 } from '@angular/core';
-import { FormGroup, NgControl, ValidationErrors } from '@angular/forms';
+import { FormGroup, FormGroupDirective, NgControl, ValidationErrors } from '@angular/forms';
 import { merge, Observable, Subscription } from 'rxjs';
 import { filter, map, mapTo, tap } from 'rxjs/operators';
 import { AbstractValidationDirective } from '../abstracts';
@@ -58,6 +58,7 @@ export class ValidationDirective extends AbstractValidationDirective
     @Optional() @SkipSelf() private markRef: ValidationStyleDirective,
     @Optional() @SkipSelf() public targetRef: ValidationTargetDirective,
     @Optional() private containerRef: ValidationContainerDirective,
+    @Optional() private formGroupDirective: FormGroupDirective,
   ) {
     super(injector);
   }
@@ -122,7 +123,7 @@ export class ValidationDirective extends AbstractValidationDirective
         .pipe(
           filter(() => !this.skipValidation),
           tap(form => {
-            if (form) {
+            if (form && this.formGroupDirective.submitted) {
               this.control.control.markAsDirty();
               this.isSubmitted = true;
             }
