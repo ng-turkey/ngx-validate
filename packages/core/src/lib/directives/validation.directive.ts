@@ -58,7 +58,7 @@ export class ValidationDirective extends AbstractValidationDirective
     @Optional() @SkipSelf() private markRef: ValidationStyleDirective,
     @Optional() @SkipSelf() public targetRef: ValidationTargetDirective,
     @Optional() private containerRef: ValidationContainerDirective,
-    @Optional() private formGroupDirctive: FormGroupDirective,
+    @Optional() private formGroupDirective: FormGroupDirective,
   ) {
     super(injector);
   }
@@ -123,7 +123,7 @@ export class ValidationDirective extends AbstractValidationDirective
         .pipe(
           filter(() => !this.skipValidation),
           tap(form => {
-            if (form && this.formGroupDirctive.submitted) {
+            if (form && this.formGroupDirective.submitted) {
               this.control.control.markAsDirty();
               this.isSubmitted = true;
             }

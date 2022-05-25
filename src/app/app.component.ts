@@ -34,41 +34,14 @@ export class AppComponent {
 
   constructor(private fb: FormBuilder) {
     this.form = this.fb.group({
-      credentials: this.fb.group(
-        {
-          username: [
-            '',
-            {
-              validators: [required, minLength(3)],
-            },
-          ],
-          ...PASSWORD_FIELDS.reduce(
-            (acc, key) => ({
-              ...acc,
-              [key]: [
-                '',
-                {
-                  validators: [
-                    required,
-                    minLength(6),
-                    validatePassword(['small', 'capital', 'number']),
-                  ],
-                },
-              ],
-            }),
-            {},
-          ),
-        },
-        {
-          validators: [comparePasswords(PASSWORD_FIELDS)],
-        },
-      ),
-      consent: [
-        false,
-        {
-          validators: [requiredTrue],
-        },
-      ],
+      credentials: this.fb.group({
+        username: [
+          '',
+          {
+            validators: [required, minLength(3)],
+          },
+        ],
+      }),
     });
   }
 }
