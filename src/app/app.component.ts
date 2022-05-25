@@ -11,6 +11,7 @@ const mapErrorsFn: Validation.MapErrorsFn = (errors, groupErrors, control) => {
 
   return errors.concat(groupErrors.filter(({ key }) => key === 'passwordMismatch'));
 };
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -26,22 +27,48 @@ export class AppComponent {
     return this.form.controls.username;
   }
 
+  constructor(private fb: FormBuilder) {
+    this.form = this.fb.group({
+      credentials: this.fb.group(
+        {
+          username: [
+            '',
+            {
+              validators: [required, minLength(3)],
+            },
+          ],
+          ...PASSWORD_FIELDS.reduce(
+            (acc, key) => ({
+              ...acc,
+              [key]: [
+                '',
+                {
+                  validators: [
+                    required,
+                    minLength(6),
+                    validatePassword(['small', 'capital', 'number']),
+                  ],
+                },
+              ],
+            }),
+            {},
+          ),
+        },
+        {
+          validators: [comparePasswords(PASSWORD_FIELDS)],
+        },
+      ),
+      consent: [
+        false,
+        {
+          validators: [requiredTrue],
+        },
+      ],
+    });
+  }
   submit(ngForm: NgForm) {
     if (this.form.invalid) return;
     console.log('Form value:', this.form.value);
     ngForm.resetForm();
-  }
-
-  constructor(private fb: FormBuilder) {
-    this.form = this.fb.group({
-      credentials: this.fb.group({
-        username: [
-          '',
-          {
-            validators: [required, minLength(3)],
-          },
-        ],
-      }),
-    });
   }
 }
