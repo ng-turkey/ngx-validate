@@ -14,7 +14,7 @@ import {
   TemplateRef,
   ViewContainerRef,
 } from '@angular/core';
-import { FormGroup, FormGroupDirective, NgControl, ValidationErrors } from '@angular/forms';
+import { UntypedFormGroup, FormGroupDirective, NgControl, ValidationErrors } from '@angular/forms';
 import { merge, Observable, Subscription } from 'rxjs';
 import { filter, map, mapTo, tap } from 'rxjs/operators';
 import { AbstractValidationDirective } from '../abstracts';
@@ -37,7 +37,7 @@ export class ValidationDirective extends AbstractValidationDirective
   private markElement: HTMLElement;
   private isSubmitted = false;
 
-  get validation$(): Observable<FormGroup> {
+  get validation$(): Observable<UntypedFormGroup> {
     return merge(
       this.parent.getStream('status').pipe(mapTo(null)),
       this.parent.getStream('value').pipe(mapTo(null)),
@@ -131,7 +131,7 @@ export class ValidationDirective extends AbstractValidationDirective
           map(() =>
             this.mapErrorsFn(
               this.buildErrors(this.control.errors),
-              this.buildErrors((this.parentRef.group || ({} as FormGroup)).errors),
+              this.buildErrors((this.parentRef.group || ({} as UntypedFormGroup)).errors),
               this.control,
             ),
           ),

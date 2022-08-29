@@ -8,7 +8,7 @@ import {
   Self,
   SkipSelf,
 } from '@angular/core';
-import { FormGroup, FormGroupDirective, FormGroupName } from '@angular/forms';
+import { UntypedFormGroup, FormGroupDirective, FormGroupName } from '@angular/forms';
 import { ReplaySubject, Subscription } from 'rxjs';
 import { AbstractValidationDirective } from '../abstracts';
 
@@ -19,9 +19,9 @@ import { AbstractValidationDirective } from '../abstracts';
 })
 export class ValidationGroupDirective extends AbstractValidationDirective
   implements AfterViewInit, OnDestroy {
-  status$ = new ReplaySubject<FormGroup>(1);
-  submit$ = new ReplaySubject<FormGroup>(1);
-  value$ = new ReplaySubject<FormGroup>(1);
+  status$ = new ReplaySubject<UntypedFormGroup>(1);
+  submit$ = new ReplaySubject<UntypedFormGroup>(1);
+  value$ = new ReplaySubject<UntypedFormGroup>(1);
 
   private subs = new Subscription();
 

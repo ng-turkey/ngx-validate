@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component, ViewEncapsulation } from '@angular/core';
 import {
   AbstractControl,
-  FormBuilder,
-  FormGroup,
+  UntypedFormBuilder,
+  UntypedFormGroup,
   FormGroupDirective,
   Validators,
 } from '@angular/forms';
@@ -25,7 +25,7 @@ const mapErrorsFn: Validation.MapErrorsFn = (errors, groupErrors, control) => {
   encapsulation: ViewEncapsulation.None,
 })
 export class AppComponent {
-  form: FormGroup;
+  form: UntypedFormGroup;
 
   mapErrorsFn: Validation.MapErrorsFn = mapErrorsFn;
 
@@ -33,7 +33,7 @@ export class AppComponent {
     return this.form.controls.username;
   }
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: UntypedFormBuilder) {
     this.form = this.fb.group({
       credentials: this.fb.group(
         {

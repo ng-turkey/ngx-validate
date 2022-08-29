@@ -138,7 +138,6 @@
       }
     }
   },
-  "defaultProject": "ngx-validate",
   "cli": {
     "analytics": false
   }
