@@ -39,7 +39,7 @@
     "@angular/cli": "~9.1.15",
     "@angular/compiler-cli": "~9.1.13",
     "@angular/language-service": "~9.1.13",
-    "@ngneat/spectator": "^4.3.2",
+    "@ngneat/spectator": "^5.13.4",
     "@types/jasmine": "~2.8.8",
     "@types/jasminewd2": "~2.0.3",
     "@types/node": "^12.11.1",
