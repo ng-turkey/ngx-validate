@@ -1,5 +1,11 @@
 import { ChangeDetectionStrategy, Component, ViewEncapsulation } from '@angular/core';
-import { AbstractControl, FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
+import {
+  AbstractControl,
+  FormBuilder,
+  FormGroup,
+  FormGroupDirective,
+  Validators,
+} from '@angular/forms';
 import { comparePasswords, validatePassword, Validation } from '@ngx-validate/core';
 
 const { minLength, required, requiredTrue } = Validators;
@@ -7,7 +13,7 @@ const { minLength, required, requiredTrue } = Validators;
 const PASSWORD_FIELDS = ['password', 'repeat'];
 
 const mapErrorsFn: Validation.MapErrorsFn = (errors, groupErrors, control) => {
-  if (PASSWORD_FIELDS.indexOf(control.name) < 0) return errors;
+  if (!PASSWORD_FIELDS.find(field => field === control.name)) return errors;
 
   return errors.concat(groupErrors.filter(({ key }) => key === 'passwordMismatch'));
 };
@@ -66,7 +72,7 @@ export class AppComponent {
       ],
     });
   }
-  submit(ngForm: NgForm) {
+  submit(ngForm: FormGroupDirective) {
     if (this.form.invalid) return;
     console.log('Form value:', this.form.value);
     ngForm.resetForm();
