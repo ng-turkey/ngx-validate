@@ -1,7 +1,6 @@
 import {
   AfterViewInit,
   ChangeDetectorRef,
-  ComponentFactoryResolver,
   ComponentRef,
   Directive,
   EmbeddedViewRef,
@@ -31,8 +30,10 @@ import { ValidationTargetDirective } from './validation-target.directive';
   selector: '[formControl],[formControlName]',
   exportAs: 'validationDirective',
 })
-export class ValidationDirective extends AbstractValidationDirective
-  implements AfterViewInit, OnDestroy {
+export class ValidationDirective
+  extends AbstractValidationDirective
+  implements AfterViewInit, OnDestroy
+{
   private errorRef: ComponentRef<ValidationErrorComponent> | EmbeddedViewRef<any>;
   private markElement: HTMLElement;
   private isSubmitted = false;
@@ -50,7 +51,6 @@ export class ValidationDirective extends AbstractValidationDirective
   constructor(
     public injector: Injector,
     private cdRef: ChangeDetectorRef,
-    private cfRes: ComponentFactoryResolver,
     @Self() private control: NgControl,
     private renderer: Renderer2,
     private vcRef: ViewContainerRef,
@@ -81,11 +81,7 @@ export class ValidationDirective extends AbstractValidationDirective
     this.errorRef =
       template instanceof TemplateRef
         ? vcRef.createEmbeddedView(template, { $implicit: errors }, vcRef.length)
-        : vcRef.createComponent(
-            this.cfRes.resolveComponentFactory(template),
-            vcRef.length,
-            this.injector,
-          );
+        : vcRef.createComponent(template);
 
     if (this.errorRef instanceof ComponentRef && this.errorRef.instance)
       (this.errorRef as ComponentRef<any>).instance.validationErrors = errors;
