@@ -81,7 +81,7 @@ export class ValidationDirective
     this.errorRef =
       template instanceof TemplateRef
         ? vcRef.createEmbeddedView(template, { $implicit: errors }, vcRef.length)
-        : vcRef.createComponent(template);
+        : vcRef.createComponent(template, { index: vcRef.length, injector: this.injector });
 
     if (this.errorRef instanceof ComponentRef && this.errorRef.instance)
       (this.errorRef as ComponentRef<any>).instance.validationErrors = errors;
