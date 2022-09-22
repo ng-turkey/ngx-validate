@@ -101,6 +101,10 @@ describe('ValidationGroupDirective', () => {
 
   describe('with parent', () => {
     it('should not emit submit$ when the directive have a parent instance', () => {
+      const form2 = new UntypedFormGroup({
+        name: new UntypedFormControl(null, { validators: [Validators.required] }),
+      });
+
       const parentForm = new UntypedFormGroup({
         parentName: new UntypedFormControl(null, { validators: [Validators.required] }),
       });
@@ -108,7 +112,7 @@ describe('ValidationGroupDirective', () => {
       spectator = createDirective(
         '<form [formGroup]="parentForm"><div id="child-form" [formGroup]="form"></div></form>',
         {
-          hostProps: { form, parentForm },
+          hostProps: { form: form2, parentForm },
         },
       );
 
