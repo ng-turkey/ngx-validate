@@ -12,7 +12,7 @@
     "lint": "ng lint",
     "symlink": "symlink copy --angular --packages @ngx-validate/core",
     "symlink-ci": "symlink copy --angular --packages @ngx-validate/core --no-watch",
-    "ci": "yarn lint && yarn test:ci && yarn run symlink-ci && yarn run build:demo",
+    "ci": "yarn test:ci && yarn run symlink-ci && yarn run build:demo",
     "cz": "git cz"
   },
   "private": true,
