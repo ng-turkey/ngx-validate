@@ -14,7 +14,7 @@ import {
   ViewContainerRef,
 } from '@angular/core';
 import { UntypedFormGroup, FormGroupDirective, NgControl, ValidationErrors } from '@angular/forms';
-import { merge, Observable, Subscription } from 'rxjs';
+import { EMPTY, merge, Observable, Subscription } from 'rxjs';
 import { filter, map, mapTo, tap } from 'rxjs/operators';
 import { AbstractValidationDirective } from '../abstracts';
 import { ValidationErrorComponent } from '../components';
@@ -39,7 +39,8 @@ export class ValidationDirective
   private isSubmitted = false;
 
   get validation$(): Observable<UntypedFormGroup> {
-    return merge(
+  if (!this.parentRef) return EMPTY;
+  return merge(
       this.parent.getStream('status').pipe(mapTo(null)),
       this.parent.getStream('value').pipe(mapTo(null)),
       this.parent.getStream('submit'),
@@ -54,7 +55,7 @@ export class ValidationDirective
     @Self() private control: NgControl,
     private renderer: Renderer2,
     private vcRef: ViewContainerRef,
-    @SkipSelf() public parentRef: ValidationGroupDirective,
+    @Optional() @SkipSelf() public parentRef: ValidationGroupDirective,
     @Optional() @SkipSelf() private markRef: ValidationStyleDirective,
     @Optional() @SkipSelf() public targetRef: ValidationTargetDirective,
     @Optional() private containerRef: ValidationContainerDirective,
