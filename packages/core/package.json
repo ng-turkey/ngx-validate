@@ -6,6 +6,9 @@
     "type": "git",
     "url": "git+https://github.com/ng-turkey/ngx-validate.git"
   },
+  "dependencies": {
+    "tslib": "^2.0.0"
+  },
   "peerDependencies": {
     "@angular/common": ">=5.0.0",
     "@angular/core": ">=5.0.0",

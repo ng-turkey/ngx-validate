@@ -1,6 +1,6 @@
 import {
-  FormControl,
-  FormGroup,
+  UntypedFormControl,
+  UntypedFormGroup,
   FormsModule,
   ReactiveFormsModule,
   Validators,
@@ -22,7 +22,7 @@ import { defaultMapErrorsFn } from '../lib/utils/mappers';
 describe('ValidationGroupDirective', () => {
   let spectator: SpectatorDirective<ValidationGroupDirective>;
   let directive: ValidationGroupDirective;
-  let form: FormGroup;
+  let form: UntypedFormGroup;
 
   const createDirective = createDirectiveFactory({
     directive: ValidationGroupDirective,
@@ -57,8 +57,8 @@ describe('ValidationGroupDirective', () => {
 
   describe('without parent', () => {
     beforeEach(() => {
-      form = new FormGroup({
-        name: new FormControl(null, { validators: [Validators.required] }),
+      form = new UntypedFormGroup({
+        name: new UntypedFormControl(null, { validators: [Validators.required] }),
       });
       spectator = createDirective('<form [formGroup]="form"></form>', {
         hostProps: { form },
@@ -101,14 +101,18 @@ describe('ValidationGroupDirective', () => {
 
   describe('with parent', () => {
     it('should not emit submit$ when the directive have a parent instance', () => {
-      const parentForm = new FormGroup({
-        parentName: new FormControl(null, { validators: [Validators.required] }),
+      const form2 = new UntypedFormGroup({
+        name: new UntypedFormControl(null, { validators: [Validators.required] }),
+      });
+
+      const parentForm = new UntypedFormGroup({
+        parentName: new UntypedFormControl(null, { validators: [Validators.required] }),
       });
 
       spectator = createDirective(
         '<form [formGroup]="parentForm"><div id="child-form" [formGroup]="form"></div></form>',
         {
-          hostProps: { form, parentForm },
+          hostProps: { form: form2, parentForm },
         },
       );
 

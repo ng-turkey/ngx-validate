@@ -1,8 +1,8 @@
-import { AbstractControl, FormGroup, ValidatorFn } from '@angular/forms';
+import { AbstractControl, UntypedFormGroup, ValidatorFn } from '@angular/forms';
 import { addCommas, normalizeDiacritics } from '../utils';
 
 export function comparePasswords([controlName1, controlName2]: string[]): ValidatorFn {
-  return (group: FormGroup) => {
+  return (group: UntypedFormGroup) => {
     const password = group.get(controlName1).value;
     const repeat = group.get(controlName2).value;
 
@@ -16,7 +16,7 @@ export function comparePasswords([controlName1, controlName2]: string[]): Valida
   };
 }
 
-export type PasswordRules = Array<'small' | 'capital' | 'number' | 'special'>;
+export type PasswordRules = ('small' | 'capital' | 'number' | 'special')[];
 
 export function validatePassword(
   shouldContain: PasswordRules = ['small', 'capital', 'number', 'special'],

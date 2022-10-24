@@ -7,7 +7,7 @@ import {
   TemplateRef,
   Type,
 } from '@angular/core';
-import { FormGroup, FormGroupDirective, FormGroupName } from '@angular/forms';
+import { UntypedFormGroup, FormGroupDirective, FormGroupName } from '@angular/forms';
 import { merge, NEVER, Observable, ReplaySubject } from 'rxjs';
 import { BLUEPRINTS } from '../constants';
 import { ValidationGroupDirective } from '../directives/validation-group.directive';
@@ -24,7 +24,7 @@ import { evalPropTruthy } from '../utils';
 
 @Directive({
   /* tslint:disable-next-line */
-  selector: "abstractValidationDirective"
+  selector: 'abstractValidationDirective',
 })
 export class AbstractValidationDirective implements OnDestroy {
   @Input('blueprints')
@@ -48,7 +48,7 @@ export class AbstractValidationDirective implements OnDestroy {
   @Input('validateOnSubmit')
   _validateOnSubmit: boolean;
 
-  get group(): FormGroup {
+  get group(): UntypedFormGroup {
     return (
       (this.groupRef || ({} as FormGroupDirective)).form ||
       (this.groupName || ({} as FormGroupName)).control
@@ -62,33 +62,20 @@ export class AbstractValidationDirective implements OnDestroy {
   get blueprints(): Validation.Blueprints {
     return {
       ...BLUEPRINTS,
-      ...(this._blueprints ||
-        this.parent.blueprints ||
-        this.config.blueprints ||
-        {}),
+      ...(this._blueprints || this.parent.blueprints || this.config.blueprints || {}),
     };
   }
 
   get errorTemplate(): TemplateRef<any> | Type<any> {
-    return (
-      this._errorTemplate ||
-      this.parent.errorTemplate ||
-      this.config.errorTemplate
-    );
+    return this._errorTemplate || this.parent.errorTemplate || this.config.errorTemplate;
   }
 
   get invalidClasses(): string {
-    return (
-      this._invalidClasses ||
-      this.parent.invalidClasses ||
-      this.config.invalidClasses
-    );
+    return this._invalidClasses || this.parent.invalidClasses || this.config.invalidClasses;
   }
 
   get mapErrorsFn(): Validation.MapErrorsFn {
-    return (
-      this._mapErrorsFn || this.parent.mapErrorsFn || this.config.mapErrorsFn
-    );
+    return this._mapErrorsFn || this.parent.mapErrorsFn || this.config.mapErrorsFn;
   }
 
   get skipValidation(): boolean {
@@ -100,11 +87,7 @@ export class AbstractValidationDirective implements OnDestroy {
   }
 
   get targetSelector(): string {
-    return (
-      this._targetSelector ||
-      this.parent.targetSelector ||
-      this.config.targetSelector
-    );
+    return this._targetSelector || this.parent.targetSelector || this.config.targetSelector;
   }
 
   get validateOnSubmit(): boolean {
@@ -132,10 +115,10 @@ export class AbstractValidationDirective implements OnDestroy {
     this.elRef = injector.get(ElementRef);
   }
 
-  getStream(streamName: Validation.StreamName): Observable<FormGroup> {
+  getStream(streamName: Validation.StreamName): Observable<UntypedFormGroup> {
     return merge(
       this[streamName + '$']
-        ? (this[streamName + '$'] as ReplaySubject<FormGroup>).asObservable()
+        ? (this[streamName + '$'] as ReplaySubject<UntypedFormGroup>).asObservable()
         : NEVER,
       this.parent.getStream(streamName) || NEVER,
     );

@@ -1,7 +1,6 @@
 import {
   AfterViewInit,
   ChangeDetectorRef,
-  ComponentFactoryResolver,
   ComponentRef,
   Directive,
   EmbeddedViewRef,
@@ -14,7 +13,7 @@ import {
   TemplateRef,
   ViewContainerRef,
 } from '@angular/core';
-import { FormGroup, FormGroupDirective, NgControl, ValidationErrors } from '@angular/forms';
+import { UntypedFormGroup, FormGroupDirective, NgControl, ValidationErrors } from '@angular/forms';
 import { merge, Observable, Subscription } from 'rxjs';
 import { filter, map, mapTo, tap } from 'rxjs/operators';
 import { AbstractValidationDirective } from '../abstracts';
@@ -31,13 +30,15 @@ import { ValidationTargetDirective } from './validation-target.directive';
   selector: '[formControl],[formControlName]',
   exportAs: 'validationDirective',
 })
-export class ValidationDirective extends AbstractValidationDirective
-  implements AfterViewInit, OnDestroy {
+export class ValidationDirective
+  extends AbstractValidationDirective
+  implements AfterViewInit, OnDestroy
+{
   private errorRef: ComponentRef<ValidationErrorComponent> | EmbeddedViewRef<any>;
   private markElement: HTMLElement;
   private isSubmitted = false;
 
-  get validation$(): Observable<FormGroup> {
+  get validation$(): Observable<UntypedFormGroup> {
     return merge(
       this.parent.getStream('status').pipe(mapTo(null)),
       this.parent.getStream('value').pipe(mapTo(null)),
@@ -50,7 +51,6 @@ export class ValidationDirective extends AbstractValidationDirective
   constructor(
     public injector: Injector,
     private cdRef: ChangeDetectorRef,
-    private cfRes: ComponentFactoryResolver,
     @Self() private control: NgControl,
     private renderer: Renderer2,
     private vcRef: ViewContainerRef,
@@ -81,11 +81,7 @@ export class ValidationDirective extends AbstractValidationDirective
     this.errorRef =
       template instanceof TemplateRef
         ? vcRef.createEmbeddedView(template, { $implicit: errors }, vcRef.length)
-        : vcRef.createComponent(
-            this.cfRes.resolveComponentFactory(template),
-            vcRef.length,
-            this.injector,
-          );
+        : vcRef.createComponent(template, { index: vcRef.length, injector: this.injector });
 
     if (this.errorRef instanceof ComponentRef && this.errorRef.instance)
       (this.errorRef as ComponentRef<any>).instance.validationErrors = errors;
@@ -131,7 +127,7 @@ export class ValidationDirective extends AbstractValidationDirective
           map(() =>
             this.mapErrorsFn(
               this.buildErrors(this.control.errors),
-              this.buildErrors((this.parentRef.group || ({} as FormGroup)).errors),
+              this.buildErrors((this.parentRef.group || ({} as UntypedFormGroup)).errors),
               this.control,
             ),
           ),

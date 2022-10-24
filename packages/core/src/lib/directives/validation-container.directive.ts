@@ -6,6 +6,6 @@ import { ValidationTargetDirective } from './validation-target.directive';
   exportAs: 'validationContainer',
 })
 export class ValidationContainerDirective {
-  @ContentChild(ValidationTargetDirective, { static: false })
+  @ContentChild(ValidationTargetDirective)
   targetRef: ValidationTargetDirective;
 }
