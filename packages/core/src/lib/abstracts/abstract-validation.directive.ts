@@ -62,7 +62,9 @@ export class AbstractValidationDirective implements OnDestroy {
   get blueprints(): Validation.Blueprints {
     return {
       ...BLUEPRINTS,
-      ...(this._blueprints || this.parent.blueprints || this.config.blueprints || {}),
+      ...(this.config.blueprints || {}),
+      ...(this.parent.blueprints || {}),
+      ...(this._blueprints || {}),
     };
   }
 
