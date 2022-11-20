@@ -3,6 +3,34 @@
   "version": 2,
   "newProjectRoot": "packages",
   "projects": {
+    "core": {
+      "root": "packages/core",
+      "sourceRoot": "packages/core/src",
+      "projectType": "library",
+      "prefix": "validation",
+      "targets": {
+        "build": {
+          "executor": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "tsConfig": "packages/core/tsconfig.lib.json",
+            "project": "packages/core/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "packages/core/tsconfig.lib.prod.json"
+            }
+          }
+        },
+        "test": {
+          "executor": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "packages/core/src/test.ts",
+            "tsConfig": "packages/core/tsconfig.spec.json",
+            "karmaConfig": "packages/core/karma.conf.js"
+          }
+        }
+      }
+    },
     "ngx-validate": {
       "root": "",
       "sourceRoot": "src",
@@ -109,36 +137,28 @@
         }
       }
     },
-    "core": {
-      "root": "packages/core",
-      "sourceRoot": "packages/core/src",
+    "validators": {
       "projectType": "library",
-      "prefix": "validation",
+      "root": "packages/validators",
+      "sourceRoot": "packages/validators/src",
+      "prefix": "ngx-validate",
       "targets": {
-        "build": {
-          "executor": "@angular-devkit/build-angular:ng-packagr",
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
           "options": {
-            "tsConfig": "packages/core/tsconfig.lib.json",
-            "project": "packages/core/ng-package.json"
-          },
-          "configurations": {
-            "production": {
-              "tsConfig": "packages/core/tsconfig.lib.prod.json"
-            }
+            "jestConfig": "packages/validators/jest.config.ts",
+            "passWithNoTests": true
           }
         },
-        "test": {
-          "executor": "@angular-devkit/build-angular:karma",
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
           "options": {
-            "main": "packages/core/src/test.ts",
-            "tsConfig": "packages/core/tsconfig.spec.json",
-            "karmaConfig": "packages/core/karma.conf.js"
+            "lintFilePatterns": ["packages/validators/**/*.ts", "packages/validators/**/*.html"]
           }
         }
-      }
+      },
+      "tags": []
     }
-  },
-  "cli": {
-    "analytics": false
   }
 }

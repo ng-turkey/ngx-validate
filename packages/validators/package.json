@@ -1,0 +1,18 @@
+{
+  "name": "@ngx-validate/validators",
+  "version": "0.2.2",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ng-turkey/ngx-validate.git"
+  },
+  "dependencies": {
+    "tslib": "^2.0.0"
+  },
+  "peerDependencies": {
+    "@angular/common": ">=5.0.0",
+    "@angular/core": ">=5.0.0",
+    "@angular/forms": ">=5.0.0",
+    "rxjs": ">=6.0.0 || ^5.6.0-forward-compat.4"
+  }
+}
