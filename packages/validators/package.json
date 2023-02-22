@@ -2,8 +2,7 @@
   "name": "@ngx-validate/validators",
   "version": "0.0.1",
   "peerDependencies": {
-    "@angular/common": "^14.2.0",
-    "@angular/core": "^14.2.0"
+    "@angular/forms": ">=5.0.0"
   },
   "dependencies": {
     "tslib": "^2.3.0"
