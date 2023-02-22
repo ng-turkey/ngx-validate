@@ -31,12 +31,12 @@
     "@nrwl/angular:application": {
       "style": "css",
       "linter": "eslint",
-      "unitTestRunner": "karma",
+      "unitTestRunner": "jest",
       "e2eTestRunner": "none"
     },
     "@nrwl/angular:library": {
       "linter": "eslint",
-      "unitTestRunner": "karma",
+      "unitTestRunner": "jest",
       "strict": false
     },
     "@nrwl/angular:component": {
