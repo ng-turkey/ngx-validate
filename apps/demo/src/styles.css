@@ -1,0 +1,9 @@
+.is-invalid .form-control {
+  border-color: #dc3545;
+  border-style: dashed !important;
+}
+
+.is-invalid .invalid-feedback,
+.is-invalid + * .invalid-feedback {
+  display: block;
+}

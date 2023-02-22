@@ -1,0 +1,21 @@
+<!--The content below is only a placeholder and can be replaced.-->
+<div class="container">
+  <div class="card m-5">
+    <div class="card-header"><h1 class="h2">NgxValidate Sample Implementation</h1></div>
+    <div class="card-body">
+      <form [formGroup]="form" #myForm="ngForm" (ngSubmit)="submit(myForm)">
+        <div formGroupName="credentials" [mapErrorsFn]="mapErrorsFn">
+          <app-username></app-username>
+          <app-password></app-password>
+          <app-password-repeat></app-password-repeat>
+        </div>
+
+        <app-check-me-out></app-check-me-out>
+
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<router-outlet></router-outlet>
