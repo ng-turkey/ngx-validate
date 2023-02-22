@@ -15,7 +15,10 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@ngx-validate/core": ["packages/core/src/index.ts"]
+      "@ngx-validate/core": ["packages/core/src/index.ts"],
+      "@ngx-validate/shared/models": ["packages/shared/models/src/index.ts"],
+      "@ngx-validate/shared/utils": ["packages/shared/utils/src/index.ts"],
+      "@ngx-validate/validators": ["packages/validators/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

@@ -7,7 +7,5 @@ export * from './lib/components';
 export * from './lib/constants';
 export * from './lib/core.module';
 export * from './lib/directives';
-export * from './lib/models';
 export * from './lib/tokens';
-export * from './lib/utils';
-export * from './lib/validators';
+export * from '@ngx-validate/shared/models';

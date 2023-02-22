@@ -1,4 +1,4 @@
-import { Validation } from '../models';
+import { Validation } from '@ngx-validate/shared/models';
 
 const CHARMAP: Validation.ParamMap = {
   á: 'a',
@@ -408,14 +408,10 @@ export function mapReplace(
   if (typeof map !== 'object') return blueprint;
 
   const expression = Object.keys(map).join('|');
-  const mapRegExp = new RegExp(
-    interpolation ? interpolate(expression) : expression,
-    'g',
-  );
+  const mapRegExp = new RegExp(interpolation ? interpolate(expression) : expression, 'g');
 
   return blueprint.replace(mapRegExp, match => {
-    if (interpolation)
-      return String(map[match.replace(/\{\{\s*|\s*\}\}/g, '')]);
+    if (interpolation) return String(map[match.replace(/\{\{\s*|\s*\}\}/g, '')]);
 
     return String(map[match]);
   });
@@ -428,15 +424,7 @@ export function normalizeDiacritics(text: string): string {
 export function addCommas(list: string[]): string {
   return list.reduce(
     (acc, item, index, { length }) =>
-      acc +
-      (!index
-        ? ''
-        : length < 3
-        ? ' and '
-        : index === length - 1
-        ? ', and '
-        : ', ') +
-      item,
+      acc + (!index ? '' : length < 3 ? ' and ' : index === length - 1 ? ', and ' : ', ') + item,
     '',
   );
 }

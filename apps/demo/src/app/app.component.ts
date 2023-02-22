@@ -6,7 +6,8 @@ import {
   FormGroupDirective,
   Validators,
 } from '@angular/forms';
-import { comparePasswords, validatePassword, Validation } from '@ngx-validate/core';
+import { Validation } from '@ngx-validate/core';
+import { comparePasswords, validatePassword } from '@ngx-validate/validators';
 
 const { minLength, required, requiredTrue } = Validators;
 

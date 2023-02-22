@@ -3,6 +3,9 @@
   "version": 2,
   "projects": {
     "core": "packages/core",
-    "demo": "apps/demo"
+    "demo": "apps/demo",
+    "shared-models": "packages/shared/models",
+    "shared-utils": "packages/shared/utils",
+    "validators": "packages/validators"
   }
 }

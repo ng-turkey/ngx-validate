@@ -36,11 +36,16 @@
     },
     "@nrwl/angular:library": {
       "linter": "eslint",
-      "unitTestRunner": "karma"
+      "unitTestRunner": "karma",
+      "strict": false
     },
     "@nrwl/angular:component": {
       "style": "css"
     }
+  },
+  "workspaceLayout": {
+    "libsDir": "packages",
+    "appsDir": "apps"
   },
   "defaultProject": "demo"
 }

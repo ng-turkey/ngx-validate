@@ -1,4 +1,4 @@
-import { Validation } from '../models';
+import { Validation } from '@ngx-validate/shared/models';
 import { mapReplace } from './string-utils';
 
 export function generateValidationError(
@@ -13,8 +13,6 @@ export function generateValidationError(
   };
 }
 
-export const defaultMapErrorsFn: Validation.MapErrorsFn = (
-  errors: Validation.Error[],
-) => {
+export const defaultMapErrorsFn: Validation.MapErrorsFn = (errors: Validation.Error[]) => {
   return errors;
 };
