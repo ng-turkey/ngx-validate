@@ -1,20 +1,20 @@
 {
   "projectType": "library",
-  "sourceRoot": "libs/core/src",
+  "sourceRoot": "packages/core/src",
   "prefix": "ngx-validate",
   "targets": {
     "build": {
       "executor": "@nrwl/angular:package",
-      "outputs": ["dist/libs/core"],
+      "outputs": ["dist/packages/core"],
       "options": {
-        "project": "libs/core/ng-package.json"
+        "project": "packages/core/ng-package.json"
       },
       "configurations": {
         "production": {
-          "tsConfig": "libs/core/tsconfig.lib.prod.json"
+          "tsConfig": "packages/core/tsconfig.lib.prod.json"
         },
         "development": {
-          "tsConfig": "libs/core/tsconfig.lib.json"
+          "tsConfig": "packages/core/tsconfig.lib.json"
         }
       },
       "defaultConfiguration": "production"
@@ -22,15 +22,15 @@
     "test": {
       "executor": "@angular-devkit/build-angular:karma",
       "options": {
-        "main": "libs/core/src/test.ts",
-        "tsConfig": "libs/core/tsconfig.spec.json",
-        "karmaConfig": "libs/core/karma.conf.js"
+        "main": "packages/core/src/test.ts",
+        "tsConfig": "packages/core/tsconfig.spec.json",
+        "karmaConfig": "packages/core/karma.conf.js"
       }
     },
     "lint": {
       "executor": "@nrwl/linter:eslint",
       "options": {
-        "lintFilePatterns": ["libs/core/**/*.ts", "libs/core/**/*.html"]
+        "lintFilePatterns": ["packages/core/**/*.ts", "packages/core/**/*.html"]
       }
     }
   },

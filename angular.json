@@ -2,7 +2,7 @@
   "$schema": "./node_modules/nx/schemas/workspace-schema.json",
   "version": 2,
   "projects": {
-    "core": "libs/core",
+    "core": "packages/core",
     "demo": "apps/demo"
   }
 }
