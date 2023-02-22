@@ -20,11 +20,11 @@
       "defaultConfiguration": "production"
     },
     "test": {
-      "executor": "@angular-devkit/build-angular:karma",
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/packages/core"],
       "options": {
-        "main": "packages/core/src/test.ts",
-        "tsConfig": "packages/core/tsconfig.spec.json",
-        "karmaConfig": "packages/core/karma.conf.js"
+        "jestConfig": "packages/core/jest.config.ts",
+        "passWithNoTests": true
       }
     },
     "lint": {
