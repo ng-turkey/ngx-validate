@@ -1,0 +1,25 @@
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "rootDir": ".",
+    "sourceMap": true,
+    "declaration": false,
+    "moduleResolution": "node",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "importHelpers": true,
+    "target": "es2015",
+    "module": "esnext",
+    "lib": ["es2017", "dom"],
+    "skipLibCheck": true,
+    "skipDefaultLibCheck": true,
+    "baseUrl": ".",
+    "paths": {
+      "@ngx-validate/core": ["packages/core/src/index.ts"],
+      "@ngx-validate/shared/models": ["packages/shared/models/src/index.ts"],
+      "@ngx-validate/shared/utils": ["packages/shared/utils/src/index.ts"],
+      "@ngx-validate/validators": ["packages/validators/src/index.ts"]
+    }
+  },
+  "exclude": ["node_modules", "tmp"]
+}

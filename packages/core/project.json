@@ -1,0 +1,38 @@
+{
+  "projectType": "library",
+  "sourceRoot": "packages/core/src",
+  "prefix": "ngx-validate",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/angular:package",
+      "outputs": ["dist/packages/core"],
+      "options": {
+        "project": "packages/core/ng-package.json"
+      },
+      "configurations": {
+        "production": {
+          "tsConfig": "packages/core/tsconfig.lib.prod.json"
+        },
+        "development": {
+          "tsConfig": "packages/core/tsconfig.lib.json"
+        }
+      },
+      "defaultConfiguration": "production"
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/packages/core"],
+      "options": {
+        "jestConfig": "packages/core/jest.config.ts",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": ["packages/core/**/*.ts", "packages/core/**/*.html"]
+      }
+    }
+  },
+  "tags": ["scope:publishable"]
+}

@@ -8,10 +8,11 @@ import {
   Type,
 } from '@angular/core';
 import { UntypedFormGroup, FormGroupDirective, FormGroupName } from '@angular/forms';
+import { Validation } from '@ngx-validate/shared/models';
+import { evalPropTruthy } from '@ngx-validate/shared/utils';
 import { merge, NEVER, Observable, ReplaySubject } from 'rxjs';
 import { BLUEPRINTS } from '../constants';
 import { ValidationGroupDirective } from '../directives/validation-group.directive';
-import { Validation } from '../models';
 import {
   VALIDATION_BLUEPRINTS,
   VALIDATION_ERROR_TEMPLATE,
@@ -20,7 +21,6 @@ import {
   VALIDATION_TARGET_SELECTOR,
   VALIDATION_VALIDATE_ON_SUBMIT,
 } from '../tokens';
-import { evalPropTruthy } from '../utils';
 
 @Directive({
   /* tslint:disable-next-line */

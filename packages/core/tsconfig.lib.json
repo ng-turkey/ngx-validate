@@ -1,18 +1,11 @@
 {
-  "extends": "../../tsconfig.json",
+  "extends": "./tsconfig.json",
   "compilerOptions": {
-    "outDir": "../../out-tsc/lib",
-    "declarationMap": true,
-    "target": "es2020",
-    "module": "es2015",
-    "moduleResolution": "node",
+    "outDir": "../../dist/out-tsc",
     "declaration": true,
-    "sourceMap": true,
+    "declarationMap": true,
     "inlineSources": true,
-    "experimentalDecorators": true,
-    "importHelpers": true,
-    "types": [],
-    "lib": ["dom", "es2018"]
+    "types": []
   },
   "angularCompilerOptions": {
     "skipTemplateCodegen": true,
@@ -21,5 +14,6 @@
     "strictInjectionParameters": true,
     "enableResourceInlining": true
   },
-  "exclude": ["src/test.ts", "**/*.spec.ts"]
+  "exclude": ["src/test.ts", "**/*.spec.ts", "jest.config.ts", "**/*.test.ts"],
+  "include": ["**/*.ts"]
 }

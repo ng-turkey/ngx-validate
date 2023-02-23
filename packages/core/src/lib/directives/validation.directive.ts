@@ -14,19 +14,19 @@ import {
   ViewContainerRef,
 } from '@angular/core';
 import { UntypedFormGroup, FormGroupDirective, NgControl, ValidationErrors } from '@angular/forms';
+import { generateValidationError } from '@ngx-validate/shared/utils';
 import { merge, Observable, Subscription } from 'rxjs';
 import { filter, map, mapTo, tap } from 'rxjs/operators';
 import { AbstractValidationDirective } from '../abstracts';
 import { ValidationErrorComponent } from '../components';
-import { Validation } from '../models';
-import { generateValidationError } from '../utils';
+import { Validation } from '@ngx-validate/shared/models';
 import { ValidationContainerDirective } from './validation-container.directive';
 import { ValidationGroupDirective } from './validation-group.directive';
 import { ValidationStyleDirective } from './validation-style.directive';
 import { ValidationTargetDirective } from './validation-target.directive';
 
 @Directive({
-  /* tslint:disable-next-line */
+  // eslint-disable-next-line @angular-eslint/directive-selector
   selector: '[formControl],[formControlName]',
   exportAs: 'validationDirective',
 })

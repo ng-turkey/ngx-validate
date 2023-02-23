@@ -6,11 +6,7 @@
 /out-tsc
 
 # dependencies
-/node_modules
-
-# profiling files
-chrome-profiler-events.json
-speed-measure-plugin.json
+node_modules
 
 # IDEs and editors
 /.idea
@@ -27,10 +23,8 @@ speed-measure-plugin.json
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
-.history/*
 
 # misc
-/.angular/cache
 /.sass-cache
 /connect.lock
 /coverage
@@ -39,9 +33,9 @@ npm-debug.log
 yarn-error.log
 testem.log
 /typings
-yarn.lock
-package-lock.json
 
 # System Files
 .DS_Store
 Thumbs.db
+
+.angular
