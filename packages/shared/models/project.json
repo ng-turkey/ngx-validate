@@ -1,24 +1,23 @@
 {
-  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "packages/shared/models/src",
   "projectType": "library",
+  "sourceRoot": "packages/shared/models/src",
+  "prefix": "ngx-validate",
   "targets": {
     "build": {
-      "executor": "@nrwl/js:tsc",
-      "outputs": ["{options.outputPath}"],
+      "executor": "@nrwl/angular:ng-packagr-lite",
+      "outputs": ["dist/packages/shared/models"],
       "options": {
-        "outputPath": "dist/packages/shared/models",
-        "main": "packages/shared/models/src/index.ts",
-        "tsConfig": "packages/shared/models/tsconfig.lib.json",
-        "assets": ["packages/shared/models/*.md"]
-      }
-    },
-    "lint": {
-      "executor": "@nrwl/linter:eslint",
-      "outputs": ["{options.outputFile}"],
-      "options": {
-        "lintFilePatterns": ["packages/shared/models/**/*.ts"]
-      }
+        "project": "packages/shared/models/ng-package.json"
+      },
+      "configurations": {
+        "production": {
+          "tsConfig": "packages/shared/models/tsconfig.lib.prod.json"
+        },
+        "development": {
+          "tsConfig": "packages/shared/models/tsconfig.lib.json"
+        }
+      },
+      "defaultConfiguration": "production"
     },
     "test": {
       "executor": "@nrwl/jest:jest",
@@ -26,6 +25,12 @@
       "options": {
         "jestConfig": "packages/shared/models/jest.config.ts",
         "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": ["packages/shared/models/**/*.ts", "packages/shared/models/**/*.html"]
       }
     }
   },

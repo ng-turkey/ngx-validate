@@ -37,6 +37,7 @@
     "@nrwl/angular:library": {
       "linter": "eslint",
       "unitTestRunner": "jest",
+      "buildable": true,
       "strict": false
     },
     "@nrwl/angular:component": {

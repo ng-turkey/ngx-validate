@@ -13,12 +13,14 @@ import { ReplaySubject, Subscription } from 'rxjs';
 import { AbstractValidationDirective } from '../abstracts';
 
 @Directive({
-  /* tslint:disable-next-line */
+  // eslint-disable-next-line @angular-eslint/directive-selector
   selector: '[formGroup],[formGroupName]',
   exportAs: 'validationGroup',
 })
-export class ValidationGroupDirective extends AbstractValidationDirective
-  implements AfterViewInit, OnDestroy {
+export class ValidationGroupDirective
+  extends AbstractValidationDirective
+  implements AfterViewInit, OnDestroy
+{
   status$ = new ReplaySubject<UntypedFormGroup>(1);
   submit$ = new ReplaySubject<UntypedFormGroup>(1);
   value$ = new ReplaySubject<UntypedFormGroup>(1);

@@ -84,7 +84,7 @@
           }
         ],
         "arrow-parens": ["off", "always"],
-        "curly": ["error", "multi-or-nest"],
+        "curly": "off",
         "id-blacklist": "off",
         "id-match": "off",
         "max-classes-per-file": ["error", 1],

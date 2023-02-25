@@ -23,7 +23,7 @@ import {
 } from '../tokens';
 
 @Directive({
-  /* tslint:disable-next-line */
+  // eslint-disable-next-line @angular-eslint/directive-selector
   selector: 'abstractValidationDirective',
 })
 export class AbstractValidationDirective implements OnDestroy {
@@ -126,5 +126,8 @@ export class AbstractValidationDirective implements OnDestroy {
     );
   }
 
-  ngOnDestroy() {}
+  // eslint-disable-next-line @angular-eslint/no-empty-lifecycle-method
+  ngOnDestroy() {
+    return;
+  }
 }

@@ -1,5 +1,5 @@
 {
-  "name": "@ngx-validate/shared/models",
+  "name": "@ngx-validate/shared/utils",
   "version": "0.0.1",
   "peerDependencies": {
     "@angular/common": "^14.2.0",

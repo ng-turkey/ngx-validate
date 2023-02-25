@@ -1,14 +1,23 @@
 {
-  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "packages/shared/utils/src",
   "projectType": "library",
+  "sourceRoot": "packages/shared/utils/src",
+  "prefix": "ngx-validate",
   "targets": {
-    "lint": {
-      "executor": "@nrwl/linter:eslint",
-      "outputs": ["{options.outputFile}"],
+    "build": {
+      "executor": "@nrwl/angular:ng-packagr-lite",
+      "outputs": ["dist/packages/shared/utils"],
       "options": {
-        "lintFilePatterns": ["packages/shared/utils/**/*.ts"]
-      }
+        "project": "packages/shared/utils/ng-package.json"
+      },
+      "configurations": {
+        "production": {
+          "tsConfig": "packages/shared/utils/tsconfig.lib.prod.json"
+        },
+        "development": {
+          "tsConfig": "packages/shared/utils/tsconfig.lib.json"
+        }
+      },
+      "defaultConfiguration": "production"
     },
     "test": {
       "executor": "@nrwl/jest:jest",
@@ -16,6 +25,12 @@
       "options": {
         "jestConfig": "packages/shared/utils/jest.config.ts",
         "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": ["packages/shared/utils/**/*.ts", "packages/shared/utils/**/*.html"]
       }
     }
   },

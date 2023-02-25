@@ -9,7 +9,8 @@ export function takeUntilDestroy<T>(component: any): MonoTypeOperatorFunction<T>
   const onDestroy = proto.ngOnDestroy;
   const destroy$ = new Subject<void>();
 
-  proto.ngOnDestroy = function() {
+  proto.ngOnDestroy = function () {
+    // eslint-disable-next-line prefer-rest-params
     onDestroy.apply(this, arguments);
 
     destroy$.next();
