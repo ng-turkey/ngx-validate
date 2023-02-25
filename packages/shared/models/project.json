@@ -1,11 +1,13 @@
 {
+  "name": "shared-models",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
   "projectType": "library",
   "sourceRoot": "packages/shared/models/src",
   "prefix": "ngx-validate",
   "targets": {
     "build": {
       "executor": "@nrwl/angular:ng-packagr-lite",
-      "outputs": ["dist/packages/shared/models"],
+      "outputs": ["{workspaceRoot}/dist/packages/shared/models"],
       "options": {
         "project": "packages/shared/models/ng-package.json"
       },
@@ -21,7 +23,7 @@
     },
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/packages/shared/models"],
+      "outputs": ["{workspaceRoot}/coverage/packages/shared/models"],
       "options": {
         "jestConfig": "packages/shared/models/jest.config.ts",
         "passWithNoTests": true

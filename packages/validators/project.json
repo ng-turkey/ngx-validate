@@ -1,11 +1,13 @@
 {
+  "name": "validators",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "projectType": "library",
   "sourceRoot": "packages/validators/src",
   "prefix": "ngx-validate",
   "targets": {
     "build": {
       "executor": "@nrwl/angular:package",
-      "outputs": ["dist/packages/validators"],
+      "outputs": ["{workspaceRoot}/dist/packages/validators"],
       "options": {
         "project": "packages/validators/ng-package.json"
       },
@@ -21,7 +23,7 @@
     },
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/packages/validators"],
+      "outputs": ["{workspaceRoot}/coverage/packages/validators"],
       "options": {
         "jestConfig": "packages/validators/jest.config.ts",
         "passWithNoTests": true
