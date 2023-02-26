@@ -1,9 +1,10 @@
-import { Directive, ViewContainerRef } from '@angular/core';
+import { Directive, inject, ViewContainerRef } from '@angular/core';
 
 @Directive({
   selector: '[validationTarget]',
   exportAs: 'validationTarget',
+  standalone: true,
 })
 export class ValidationTargetDirective {
-  constructor(public vcRef: ViewContainerRef) {}
+  vcRef = inject(ViewContainerRef);
 }

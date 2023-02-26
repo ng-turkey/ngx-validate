@@ -4,64 +4,75 @@ import {
   ComponentRef,
   Directive,
   EmbeddedViewRef,
+  inject,
   Injector,
   OnDestroy,
-  Optional,
   Renderer2,
-  Self,
-  SkipSelf,
   TemplateRef,
   ViewContainerRef,
 } from '@angular/core';
 import { UntypedFormGroup, FormGroupDirective, NgControl, ValidationErrors } from '@angular/forms';
 import { generateValidationError } from '@ngx-validate/shared/utils';
 import { merge, Observable, Subscription } from 'rxjs';
-import { filter, map, mapTo, tap } from 'rxjs/operators';
+import { filter, map, tap } from 'rxjs/operators';
 import { AbstractValidationDirective } from '../abstracts';
-import { ValidationErrorComponent } from '../components';
 import { Validation } from '@ngx-validate/shared/models';
 import { ValidationContainerDirective } from './validation-container.directive';
 import { ValidationGroupDirective } from './validation-group.directive';
 import { ValidationStyleDirective } from './validation-style.directive';
 import { ValidationTargetDirective } from './validation-target.directive';
+import { NgxValidateErrorComponent } from '../models';
 
 @Directive({
   // eslint-disable-next-line @angular-eslint/directive-selector
   selector: '[formControl],[formControlName]',
   exportAs: 'validationDirective',
+  standalone: true,
 })
 export class ValidationDirective
   extends AbstractValidationDirective
   implements AfterViewInit, OnDestroy
 {
-  private errorRef: ComponentRef<ValidationErrorComponent> | EmbeddedViewRef<any>;
+  private errorRef: ComponentRef<NgxValidateErrorComponent> | EmbeddedViewRef<unknown>;
   private markElement: HTMLElement;
   private isSubmitted = false;
+  private subscriptions = new Subscription();
 
   get validation$(): Observable<UntypedFormGroup> {
     return merge(
-      this.parent.getStream('status').pipe(mapTo(null)),
-      this.parent.getStream('value').pipe(mapTo(null)),
+      this.parent.getStream('status').pipe(map(() => null)),
+      this.parent.getStream('value').pipe(map(() => null)),
       this.parent.getStream('submit'),
     );
   }
 
-  private subscriptions = new Subscription();
+  parentRef: ValidationGroupDirective = inject(ValidationGroupDirective, {
+    skipSelf: true,
+  });
 
-  constructor(
-    public injector: Injector,
-    private cdRef: ChangeDetectorRef,
-    @Self() private control: NgControl,
-    private renderer: Renderer2,
-    private vcRef: ViewContainerRef,
-    @SkipSelf() public parentRef: ValidationGroupDirective,
-    @Optional() @SkipSelf() private markRef: ValidationStyleDirective,
-    @Optional() @SkipSelf() public targetRef: ValidationTargetDirective,
-    @Optional() private containerRef: ValidationContainerDirective,
-    @Optional() private formGroupDirective: FormGroupDirective,
-  ) {
-    super(injector);
-  }
+  private injector = inject(Injector);
+  private cdRef: ChangeDetectorRef = inject(ChangeDetectorRef);
+  private control: NgControl = inject(NgControl, { self: true });
+  private renderer: Renderer2 = inject(Renderer2);
+  private vcRef: ViewContainerRef = inject(ViewContainerRef);
+
+  private markRef: ValidationStyleDirective = inject(ValidationStyleDirective, {
+    optional: true,
+    skipSelf: true,
+  });
+
+  private targetRef: ValidationTargetDirective = inject(ValidationTargetDirective, {
+    optional: true,
+    skipSelf: true,
+  });
+
+  private containerRef: ValidationContainerDirective = inject(ValidationContainerDirective, {
+    optional: true,
+  });
+
+  private formGroupDirective: FormGroupDirective = inject(FormGroupDirective, {
+    optional: true,
+  });
 
   private buildErrors(errors: ValidationErrors): Validation.Error[] {
     return Object.keys(errors || {}).map(key =>
@@ -84,7 +95,7 @@ export class ValidationDirective
         : vcRef.createComponent(template, { index: vcRef.length, injector: this.injector });
 
     if (this.errorRef instanceof ComponentRef && this.errorRef.instance)
-      (this.errorRef as ComponentRef<any>).instance.validationErrors = errors;
+      this.errorRef.instance.validationErrors = errors;
   }
 
   private removeErrorClasses() {

@@ -1,13 +1,4 @@
-import {
-  AfterViewInit,
-  ChangeDetectorRef,
-  Directive,
-  Injector,
-  OnDestroy,
-  Optional,
-  Self,
-  SkipSelf,
-} from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Directive, inject, OnDestroy } from '@angular/core';
 import { UntypedFormGroup, FormGroupDirective, FormGroupName } from '@angular/forms';
 import { ReplaySubject, Subscription } from 'rxjs';
 import { AbstractValidationDirective } from '../abstracts';
@@ -16,6 +7,7 @@ import { AbstractValidationDirective } from '../abstracts';
   // eslint-disable-next-line @angular-eslint/directive-selector
   selector: '[formGroup],[formGroupName]',
   exportAs: 'validationGroup',
+  standalone: true,
 })
 export class ValidationGroupDirective
   extends AbstractValidationDirective
@@ -25,23 +17,12 @@ export class ValidationGroupDirective
   submit$ = new ReplaySubject<UntypedFormGroup>(1);
   value$ = new ReplaySubject<UntypedFormGroup>(1);
 
-  private subs = new Subscription();
+  readonly cdRef = inject(ChangeDetectorRef);
+  readonly groupName? = inject(FormGroupName, { optional: true, self: true });
+  readonly groupRef? = inject(FormGroupDirective, { optional: true, self: true });
+  readonly parentRef? = inject(ValidationGroupDirective, { optional: true, skipSelf: true });
 
-  constructor(
-    public injector: Injector,
-    public cdRef: ChangeDetectorRef,
-    @Optional()
-    @Self()
-    public groupName: FormGroupName,
-    @Optional()
-    @Self()
-    public groupRef: FormGroupDirective,
-    @Optional()
-    @SkipSelf()
-    public parentRef: ValidationGroupDirective,
-  ) {
-    super(injector);
-  }
+  private subs = new Subscription();
 
   private subscribeToFormSubmit() {
     (this.elRef.nativeElement as HTMLFormElement).onsubmit = event => {

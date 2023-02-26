@@ -1,3 +1,4 @@
+import { NgFor } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -5,6 +6,7 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import { Validation } from '@ngx-validate/shared/models';
+import { NgxValidateErrorComponent } from '../models';
 
 @Component({
   selector: 'validation-error',
@@ -15,8 +17,10 @@ import { Validation } from '@ngx-validate/shared/models';
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
+  standalone: true,
+  imports: [NgFor],
 })
-export class ValidationErrorComponent {
+export class ValidationErrorComponent implements NgxValidateErrorComponent {
   validationErrors: Validation.Error[];
 
   trackByFn: TrackByFunction<Validation.Error> = (_, item) => item.key;

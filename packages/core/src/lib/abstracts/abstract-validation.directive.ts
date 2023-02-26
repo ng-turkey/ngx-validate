@@ -1,18 +1,11 @@
-import {
-  Directive,
-  ElementRef,
-  Injector,
-  Input,
-  OnDestroy,
-  TemplateRef,
-  Type,
-} from '@angular/core';
+import { Directive, ElementRef, inject, Input, OnDestroy, TemplateRef, Type } from '@angular/core';
 import { UntypedFormGroup, FormGroupDirective, FormGroupName } from '@angular/forms';
 import { Validation } from '@ngx-validate/shared/models';
 import { evalPropTruthy } from '@ngx-validate/shared/utils';
 import { merge, NEVER, Observable, ReplaySubject } from 'rxjs';
 import { BLUEPRINTS } from '../constants';
 import { ValidationGroupDirective } from '../directives/validation-group.directive';
+import { NgxValidateErrorComponent } from '../models';
 import {
   VALIDATION_BLUEPRINTS,
   VALIDATION_ERROR_TEMPLATE,
@@ -25,13 +18,14 @@ import {
 @Directive({
   // eslint-disable-next-line @angular-eslint/directive-selector
   selector: 'abstractValidationDirective',
+  standalone: true,
 })
 export class AbstractValidationDirective implements OnDestroy {
   @Input('blueprints')
   _blueprints: Validation.Blueprints;
 
   @Input('errorTemplate')
-  _errorTemplate: TemplateRef<any> | Type<any>;
+  _errorTemplate: TemplateRef<unknown> | Type<NgxValidateErrorComponent>;
 
   @Input('invalidClasses')
   _invalidClasses: string;
@@ -68,7 +62,7 @@ export class AbstractValidationDirective implements OnDestroy {
     };
   }
 
-  get errorTemplate(): TemplateRef<any> | Type<any> {
+  get errorTemplate(): TemplateRef<unknown> | Type<NgxValidateErrorComponent> {
     return this._errorTemplate || this.parent.errorTemplate || this.config.errorTemplate;
   }
 
@@ -100,22 +94,19 @@ export class AbstractValidationDirective implements OnDestroy {
     );
   }
 
-  config: Validation.Config;
-  elRef: ElementRef;
-  groupName: FormGroupName;
-  groupRef: FormGroupDirective;
-  parentRef: ValidationGroupDirective;
-  constructor(public injector: Injector) {
-    this.config = {
-      blueprints: injector.get(VALIDATION_BLUEPRINTS),
-      errorTemplate: injector.get(VALIDATION_ERROR_TEMPLATE),
-      invalidClasses: injector.get(VALIDATION_INVALID_CLASSES),
-      mapErrorsFn: injector.get(VALIDATION_MAP_ERRORS_FN),
-      targetSelector: injector.get(VALIDATION_TARGET_SELECTOR),
-      validateOnSubmit: injector.get(VALIDATION_VALIDATE_ON_SUBMIT),
-    };
-    this.elRef = injector.get(ElementRef);
-  }
+  config: Validation.Config = {
+    blueprints: inject(VALIDATION_BLUEPRINTS),
+    errorTemplate: inject(VALIDATION_ERROR_TEMPLATE),
+    invalidClasses: inject(VALIDATION_INVALID_CLASSES),
+    mapErrorsFn: inject(VALIDATION_MAP_ERRORS_FN),
+    targetSelector: inject(VALIDATION_TARGET_SELECTOR),
+    validateOnSubmit: inject(VALIDATION_VALIDATE_ON_SUBMIT),
+  };
+  elRef: ElementRef = inject(ElementRef);
+
+  groupName?: FormGroupName;
+  groupRef?: FormGroupDirective;
+  parentRef?: ValidationGroupDirective;
 
   getStream(streamName: Validation.StreamName): Observable<UntypedFormGroup> {
     return merge(
