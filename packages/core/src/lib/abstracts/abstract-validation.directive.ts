@@ -3,9 +3,9 @@ import { UntypedFormGroup, FormGroupDirective, FormGroupName } from '@angular/fo
 import { Validation } from '@ngx-validate/shared/models';
 import { evalPropTruthy } from '@ngx-validate/shared/utils';
 import { merge, NEVER, Observable, ReplaySubject } from 'rxjs';
+import { ValidationErrorComponent } from '../components';
 import { BLUEPRINTS } from '../constants';
 import { ValidationGroupDirective } from '../directives/validation-group.directive';
-import { NgxValidateErrorComponent } from '../models';
 import {
   VALIDATION_BLUEPRINTS,
   VALIDATION_ERROR_TEMPLATE,
@@ -25,7 +25,7 @@ export class AbstractValidationDirective implements OnDestroy {
   _blueprints: Validation.Blueprints;
 
   @Input('errorTemplate')
-  _errorTemplate: TemplateRef<unknown> | Type<NgxValidateErrorComponent>;
+  _errorTemplate: TemplateRef<unknown> | Type<ValidationErrorComponent>;
 
   @Input('invalidClasses')
   _invalidClasses: string;
@@ -62,7 +62,7 @@ export class AbstractValidationDirective implements OnDestroy {
     };
   }
 
-  get errorTemplate(): TemplateRef<unknown> | Type<NgxValidateErrorComponent> {
+  get errorTemplate(): TemplateRef<unknown> | Type<ValidationErrorComponent> {
     return this._errorTemplate || this.parent.errorTemplate || this.config.errorTemplate;
   }
 

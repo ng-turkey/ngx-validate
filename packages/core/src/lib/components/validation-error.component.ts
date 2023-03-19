@@ -6,7 +6,6 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import { Validation } from '@ngx-validate/shared/models';
-import { NgxValidateErrorComponent } from '../models';
 
 @Component({
   selector: 'validation-error',
@@ -20,7 +19,7 @@ import { NgxValidateErrorComponent } from '../models';
   standalone: true,
   imports: [NgFor],
 })
-export class ValidationErrorComponent implements NgxValidateErrorComponent {
+export class ValidationErrorComponent {
   validationErrors: Validation.Error[];
 
   trackByFn: TrackByFunction<Validation.Error> = (_, item) => item.key;

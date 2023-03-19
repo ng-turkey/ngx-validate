@@ -21,7 +21,7 @@ import { ValidationContainerDirective } from './validation-container.directive';
 import { ValidationGroupDirective } from './validation-group.directive';
 import { ValidationStyleDirective } from './validation-style.directive';
 import { ValidationTargetDirective } from './validation-target.directive';
-import { NgxValidateErrorComponent } from '../models';
+import { ValidationErrorComponent } from '../components';
 
 @Directive({
   // eslint-disable-next-line @angular-eslint/directive-selector
@@ -33,7 +33,7 @@ export class ValidationDirective
   extends AbstractValidationDirective
   implements AfterViewInit, OnDestroy
 {
-  private errorRef: ComponentRef<NgxValidateErrorComponent> | EmbeddedViewRef<unknown>;
+  private errorRef: ComponentRef<ValidationErrorComponent> | EmbeddedViewRef<unknown>;
   private markElement: HTMLElement;
   private isSubmitted = false;
   private subscriptions = new Subscription();
