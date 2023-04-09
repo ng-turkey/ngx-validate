@@ -3,6 +3,7 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
+    "nx": "nx",
     "ng": "nx",
     "build:core": "nx build core --configuration=production",
     "build:demo": "nx build demo --configuration=production",
@@ -51,6 +52,7 @@
     "@typescript-eslint/parser": "5.53.0",
     "eslint": "~8.15.0",
     "eslint-config-prettier": "8.1.0",
+    "eslint-plugin-unused-imports": "^2.0.0",
     "husky": "^3.0.7",
     "jasmine-spec-reporter": "~7.0.0",
     "jest": "28.1.1",
