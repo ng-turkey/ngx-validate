@@ -13,6 +13,7 @@ import { BLUEPRINTS } from '../constants';
 import { ValidationGroupDirective } from '../directives/validation-group.directive';
 import { Validation } from '../models';
 import {
+  SKIP_VALIDATION,
   VALIDATION_BLUEPRINTS,
   VALIDATION_ERROR_TEMPLATE,
   VALIDATION_INVALID_CLASSES,
@@ -113,6 +114,7 @@ export class AbstractValidationDirective implements OnDestroy {
       mapErrorsFn: injector.get(VALIDATION_MAP_ERRORS_FN),
       targetSelector: injector.get(VALIDATION_TARGET_SELECTOR),
       validateOnSubmit: injector.get(VALIDATION_VALIDATE_ON_SUBMIT),
+      skipValidation: injector.get(SKIP_VALIDATION),
     };
     this.elRef = injector.get(ElementRef);
   }
