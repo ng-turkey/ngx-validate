@@ -17,6 +17,7 @@ import { VALIDATION_MAP_ERRORS_FN } from './tokens/map-errors-fn.token';
 import { VALIDATION_TARGET_SELECTOR } from './tokens/target-selector.token';
 import { VALIDATION_VALIDATE_ON_SUBMIT } from './tokens/validate-on-submit.token';
 import { defaultMapErrorsFn } from './utils/mappers';
+import { SKIP_VALIDATION } from './tokens';
 
 @NgModule({
   imports: [CommonModule, FormsModule, ReactiveFormsModule],
@@ -65,6 +66,10 @@ export class NgxValidateCoreModule {
         {
           provide: VALIDATION_VALIDATE_ON_SUBMIT,
           useValue: config.validateOnSubmit,
+        },
+        {
+          provide: SKIP_VALIDATION,
+          useValue: config.skipValidation || false,
         },
       ],
     };

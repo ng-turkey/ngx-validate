@@ -4,3 +4,4 @@ export * from './invalid-classes.token';
 export * from './map-errors-fn.token';
 export * from './target-selector.token';
 export * from './validate-on-submit.token';
+export * from './skip-validation.token';
