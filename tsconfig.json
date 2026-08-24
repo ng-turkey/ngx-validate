@@ -18,7 +18,8 @@
     "lib": ["es2018", "dom"],
     "paths": {
       "@ngx-validate/core": ["packages/core/src/public_api.ts"],
-      "@ngx-validate/core/*": ["packages/core/src/lib/*"]
+      "@ngx-validate/core/*": ["packages/core/src/lib/*"],
+      "@ngx-validate/validators": ["packages/validators/src/index.ts"]
     }
   }
 }

@@ -1,22 +1,6 @@
-import { AbstractControl, UntypedFormGroup, ValidatorFn } from '@angular/forms';
-import { addCommas, normalizeDiacritics } from '../utils';
-
-export function comparePasswords([controlName1, controlName2]: string[]): ValidatorFn {
-  return (group: UntypedFormGroup) => {
-    const password = group.get(controlName1).value;
-    const repeat = group.get(controlName2).value;
-
-    return !password || !repeat || password === repeat
-      ? null
-      : {
-          passwordMismatch: {
-            fields: [controlName1, controlName2],
-          },
-        };
-  };
-}
-
-export type PasswordRules = ('small' | 'capital' | 'number' | 'special')[];
+import { AbstractControl, ValidatorFn } from '@angular/forms';
+import { addCommas, normalizeDiacritics } from '@ngx-validate/core';
+import { PasswordRules } from './password-rules';
 
 export function validatePassword(
   shouldContain: PasswordRules = ['small', 'capital', 'number', 'special'],
@@ -47,7 +31,7 @@ export function validatePassword(
                     capital: 'a capital',
                     number: 'a number',
                     special: 'a special character',
-                  }[key]),
+                  }[key] || key),
               ),
             ),
           },
